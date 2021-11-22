@@ -1,0 +1,44 @@
+﻿CREATE TABLE Person (
+    Id int IDENTITY(1,1) PRIMARY KEY,
+    UserName varchar(255),
+    Password varchar(255),
+    Name varchar(255),
+    Email varchar(255),
+    Phone varchar(255),
+    IsAdmin bit
+);
+
+
+CREATE TABLE Appointment (
+    Id int IDENTITY(1,1) PRIMARY KEY,
+    UserName varchar(255),
+    Type varchar(255),
+    Date varchar(255),
+    EndDate varchar(255),
+    Price float,
+    PersonId int FOREIGN KEY REFERENCES Person(Id),
+    IsDone bit
+);
+
+
+CREATE TABLE Review (
+    Id int IDENTITY(1,1) PRIMARY KEY,
+    UserId int FOREIGN KEY REFERENCES Person(Id),
+    AppointmentId int FOREIGN KEY REFERENCES Appointment(Id),
+    Review varchar(255),
+    IsOke bit
+);
+
+CREATE TABLE GaragePicture (
+    Id int IDENTITY(1,1) PRIMARY KEY,
+    AppointmentId int FOREIGN KEY REFERENCES Appointment(Id),
+    FileName varchar(255),
+    ImagePath varchar(255)
+);
+CREATE TABLE ReviewerPicture (
+    Id int IDENTITY(1,1) PRIMARY KEY,
+    ReviewId int FOREIGN KEY REFERENCES Review(Id),
+    AppointmentId int FOREIGN KEY REFERENCES Appointment(Id),
+    FileName varchar(255),
+    ImagePath varchar(255)
+);
