@@ -13,7 +13,11 @@ namespace DependencyInjection
     {
         public static IServiceCollection RepositoryConfiguration(this IServiceCollection services)
         {
-            services.AddTransient<IAppointmentRepo, AppointmentRepo>();
+            services.AddSingleton<IAppointmentRepo, AppointmentRepo>();
+            services.AddSingleton<IPersonRepo, PersonRepo>();
+            services.AddSingleton<IReviewRepo, ReviewRepo>();
+            services.AddSingleton<IReviewerPictureRepo, ReviewerPictureRepo>();
+            services.AddSingleton<IGaragePictureRepo, GaragePictureRepo>();
 
             return services;
         }

@@ -1,5 +1,5 @@
 ﻿using DB.Repository.Interfaces;
-using Models;
+using Models.Pictures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,39 +8,34 @@ using System.Threading.Tasks;
 
 namespace DB.Repository.DataAccess
 {
-    public class AppointmentRepo : Connection, IAppointmentRepo
+    public class GaragePictureRepo : Connection, IGaragePictureRepo
     {
         public int Count()
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(AppointmentModel value)
+        public void Delete(GaragePictureModel value)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<AppointmentModel> GetAll(int pageNumber, int pageSize)
+        public IEnumerable<GaragePictureModel> GetAll(int pageNumber, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public AppointmentModel Insert(AppointmentModel value)
+        public GaragePictureModel Insert(GaragePictureModel value)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<AppointmentModel> MyAppointments(int personId, int pageNumber, int pageSize)
+        public GaragePictureModel Search(string fullName)
         {
             throw new NotImplementedException();
         }
 
-        public AppointmentModel Search(string fullName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public AppointmentModel Update(AppointmentModel value)
+        public GaragePictureModel Update(GaragePictureModel value)
         {
             throw new NotImplementedException();
         }

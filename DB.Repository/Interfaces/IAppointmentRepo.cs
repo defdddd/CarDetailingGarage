@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DB.Repository.Interfaces
 {
-    public interface IAppointmentRepo
+    public interface IAppointmentRepo : IUniversal
     {
         IEnumerable<AppointmentModel> MyAppointments(int personId, int pageNumber, int pageSize);
         IEnumerable<AppointmentModel> GetAll(int pageNumber, int pageSize);
@@ -16,6 +16,5 @@ namespace DB.Repository.Interfaces
         AppointmentModel Update(AppointmentModel value);
         AppointmentModel Search(string fullName);
         void Delete(AppointmentModel value);
-        int Count();
     }
 }

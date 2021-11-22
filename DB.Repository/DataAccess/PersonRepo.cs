@@ -8,39 +8,34 @@ using System.Threading.Tasks;
 
 namespace DB.Repository.DataAccess
 {
-    public class AppointmentRepo : Connection, IAppointmentRepo
+    public class PersonRepo : Connection, IPersonRepo
     {
         public int Count()
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(AppointmentModel value)
+        public void Delete(PersonModel value)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<AppointmentModel> GetAll(int pageNumber, int pageSize)
+        public IEnumerable<PersonModel> GetAll(int pageNumber, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public AppointmentModel Insert(AppointmentModel value)
+        public PersonModel Insert(PersonModel value)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<AppointmentModel> MyAppointments(int personId, int pageNumber, int pageSize)
+        public PersonModel Search(string fullName)
         {
             throw new NotImplementedException();
         }
 
-        public AppointmentModel Search(string fullName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public AppointmentModel Update(AppointmentModel value)
+        public PersonModel Update(PersonModel value)
         {
             throw new NotImplementedException();
         }
