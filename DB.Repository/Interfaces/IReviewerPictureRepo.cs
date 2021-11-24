@@ -12,7 +12,7 @@ namespace DB.Repository.Interfaces
         IEnumerable<ReviewerPictureModel> GetAll(int pageNumber, int pageSize);
         ReviewerPictureModel Insert(ReviewerPictureModel value);
         ReviewerPictureModel Update(ReviewerPictureModel value);
-        ReviewerPictureModel Search(string fullName);
+        ReviewerPictureModel Search(int reviewerId, int appointmentId);
         void Delete(ReviewerPictureModel value);
     }
 }

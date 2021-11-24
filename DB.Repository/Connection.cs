@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace DB.Repository
 {
-    public abstract class Connection
+    public class Connection : IConnection
     {
-      protected static string Con => Properties.Resources.ConnectionString;       
+        public string DataBaseConnection { get; }
+        public Connection(string connection)
+        {
+            DataBaseConnection = connection;
+        }
     }
 }

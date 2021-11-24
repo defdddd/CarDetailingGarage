@@ -12,7 +12,7 @@ namespace DB.Repository.Interfaces
         IEnumerable<GaragePictureModel> GetAll(int pageNumber, int pageSize);
         GaragePictureModel Insert(GaragePictureModel value);
         GaragePictureModel Update(GaragePictureModel value);
-        GaragePictureModel Search(string fullName);
+        GaragePictureModel Search(int appointmentId);
         void Delete(GaragePictureModel value);
     }
 }

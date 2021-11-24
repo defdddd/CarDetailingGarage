@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 
 namespace DB.Repository.DataAccess
 {
-    public class PersonRepo : Connection, IPersonRepo
+    public class PersonRepo : IPersonRepo
     {
+        private readonly string connection;
+        public PersonRepo(IConnection connection)
+        {
+            this.connection = connection.DataBaseConnection;
+        }
         public int Count()
         {
             throw new NotImplementedException();
@@ -32,7 +37,7 @@ namespace DB.Repository.DataAccess
 
         public PersonModel Search(string fullName)
         {
-            throw new NotImplementedException();
+            return new PersonModel() { UserName = "string", Password = "string", Id = 0 , IsAdmin = true };
         }
 
         public PersonModel Update(PersonModel value)

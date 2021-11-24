@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 
 namespace DB.Repository.DataAccess
 {
-    public class GaragePictureRepo : Connection, IGaragePictureRepo
+    public class GaragePictureRepo : IGaragePictureRepo
     {
+        private readonly string connection;
+        public GaragePictureRepo(IConnection connection)
+        {
+            this.connection = connection.DataBaseConnection;
+        }
         public int Count()
         {
             throw new NotImplementedException();
@@ -30,7 +35,7 @@ namespace DB.Repository.DataAccess
             throw new NotImplementedException();
         }
 
-        public GaragePictureModel Search(string fullName)
+        public GaragePictureModel Search(int appointmentId)
         {
             throw new NotImplementedException();
         }

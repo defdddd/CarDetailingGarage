@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 
 namespace DB.Repository.DataAccess
 {
-    public class ReviewRepo : Connection, IReviewRepo
+    public class ReviewRepo : IReviewRepo
     {
+        private readonly string connection;
+        public ReviewRepo(IConnection connection)
+        {
+            this.connection = connection.DataBaseConnection;
+        }
         public int Count()
         {
             throw new NotImplementedException();

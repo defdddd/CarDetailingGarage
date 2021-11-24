@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 
 namespace DB.Repository.DataAccess
 {
-    public class AppointmentRepo : Connection, IAppointmentRepo
+    public class AppointmentRepo : IAppointmentRepo
     {
+        private readonly string connection;
+        public AppointmentRepo(IConnection connection)
+        {
+            this.connection = connection.DataBaseConnection;
+        }
         public int Count()
         {
             throw new NotImplementedException();

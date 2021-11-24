@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 
 namespace DB.Repository.DataAccess
 {
-    public class ReviewerPictureRepo : Connection, IReviewerPictureRepo
+    public class ReviewerPictureRepo : IReviewerPictureRepo
     {
+        private readonly string connection;
+        public ReviewerPictureRepo(IConnection connection)
+        {
+            this.connection = connection.DataBaseConnection;
+        }
         public int Count()
         {
             throw new NotImplementedException();
@@ -30,7 +35,7 @@ namespace DB.Repository.DataAccess
             throw new NotImplementedException();
         }
 
-        public ReviewerPictureModel Search(string fullName)
+        public ReviewerPictureModel Search(int reviewerId, int appointmentId)
         {
             throw new NotImplementedException();
         }
