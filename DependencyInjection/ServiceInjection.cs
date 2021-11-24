@@ -1,4 +1,4 @@
-﻿using DB.Repository.Interfaces;
+﻿using DataAccess.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Service.Manage;
@@ -17,7 +17,7 @@ namespace DependencyInjection
             services.AddSingleton<IJwtManage>
               (
                 provider => 
-                     new JwtManage(provider.GetService<IPersonRepo>(), Config.GetConnectionString("MySecretKey"))
+                     new JwtManage(provider.GetService<IPersonData>(), Config.GetConnectionString("MySecretKey"))
               );
 
             services.AddSingleton<IPersonManage,PersonManage>();

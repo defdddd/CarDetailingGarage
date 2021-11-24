@@ -1,13 +1,13 @@
-﻿using DB.Repository.Interfaces;
-using DB.Repository.DataAccess;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using DB.Repository;
+using DataAccess.Connection;
+using DataAccess.SqlDataAccess;
+using DataAccess.Data;
 
 namespace DependencyInjection
 {
@@ -16,11 +16,13 @@ namespace DependencyInjection
         public static IServiceCollection RepositoryConfiguration(this IServiceCollection services, IConfiguration Config)
         {
             services.AddSingleton<IConnection>(new Connection(Config.GetConnectionString("DataBase")));
-            services.AddSingleton<IAppointmentRepo, AppointmentRepo>();
-            services.AddSingleton<IPersonRepo, PersonRepo>();
-            services.AddSingleton<IReviewRepo, ReviewRepo>();
-            services.AddSingleton<IReviewerPictureRepo, ReviewerPictureRepo>();
-            services.AddSingleton<IGaragePictureRepo, GaragePictureRepo>();
+            services.AddSingleton<ISqlDataAccess,SqlDataAccess>();
+
+            //services.AddSingleton<IAppointmentRepo, AppointmentRepo>();
+            services.AddSingleton<IPersonData, PersonData>();
+            //services.AddSingleton<IReviewRepo, ReviewRepo>();
+            //services.AddSingleton<IReviewerPictureRepo, ReviewerPictureRepo>();
+            //services.AddSingleton<IGaragePictureRepo, GaragePictureRepo>();
 
             return services;
         }

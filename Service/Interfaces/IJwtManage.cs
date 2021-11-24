@@ -1,10 +1,11 @@
 ﻿using Models;
+using System.Threading.Tasks;
 
 namespace Service.Manage
 {
     public interface IJwtManage
     {
-        dynamic GenerateToken(AuthModel authModel);
-        bool IsValidUserNameAndPassowrd(AuthModel authModel);
+        Task<dynamic> GenerateToken(AuthModel authModel);
+        Task<bool> IsValidUserNameAndPassowrd(AuthModel authModel);
     }
 }

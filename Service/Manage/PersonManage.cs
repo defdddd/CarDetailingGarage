@@ -1,4 +1,4 @@
-﻿using DB.Repository.Interfaces;
+﻿using DataAccess.Data;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -10,19 +10,19 @@ namespace Service.Manage
 {
     public class PersonManage : IPersonManage
     {
-        private readonly IPersonRepo personRepo;
+        private readonly IPersonData _personData;
 
-        public PersonManage(IPersonRepo personRepo)
+        public PersonManage(IPersonData _personData)
         {
-            this.personRepo = personRepo;
+            this._personData = _personData;
         }
-        public IEnumerable<PersonModel> GetAllPage(int pageSize, int pageNumber)
+        public async Task<IEnumerable<PersonModel>> GetAllPage(int pageSize, int pageNumber)
         {
-            return personRepo.GetAll(pageNumber, pageSize);
+            return await _personData.GetAll(pageNumber, pageSize);
         }
-        public PersonModel Search(string userName)
+        public async Task<PersonModel> Search(string userName)
         {
-            var user = personRepo.Search(userName);
+            var user = await _personData.Search(userName);
             return user ?? throw new Exception("User not Found");
         }
     }

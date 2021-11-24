@@ -9,7 +9,7 @@ namespace Models
     public class AppointmentModel
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string UserName { get; set; }
         public string Type { get; set; }
         public string Date { get; set; }
         public string EndDate { get; set; }

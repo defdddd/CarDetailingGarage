@@ -1,4 +1,4 @@
-﻿using DB.Repository.Interfaces;
+﻿using DataAccess.Data;
 using Microsoft.IdentityModel.Tokens;
 using Models;
 using Service.Manage;
@@ -14,27 +14,26 @@ namespace Service.Manage
 {
     public class JwtManage : IJwtManage
     {
-        private readonly IPersonRepo personRepo;
-        private readonly string myKey;
+        private readonly IPersonData _personData;
+        private readonly string _myKey;
 
-        public JwtManage(IPersonRepo personRepo, string myKey)
+        public JwtManage(IPersonData _personData, string _myKey)
         {
-            this.personRepo = personRepo;
-            this.myKey = myKey;
+            this._personData = _personData;
+            this._myKey = _myKey;
         }
 
-        public bool IsValidUserNameAndPassowrd(AuthModel authModel)
+        public async Task<bool> IsValidUserNameAndPassowrd(AuthModel authModel)
         {
-            var user = personRepo.Search(authModel.UserName);
-
+            var user = await _personData.Search(authModel.UserName);
             if (user == null) return false;
             if (user.Password != authModel.Password) return false;
             return true;
         }
-        public dynamic GenerateToken(AuthModel authModel)
+        public async Task<dynamic> GenerateToken(AuthModel authModel)
         {
             var username = authModel.UserName;
-            var user = personRepo.Search(username);
+            var user = await _personData.Search(username);
 
             var claims = new List<Claim>
             {
@@ -55,7 +54,7 @@ namespace Service.Manage
                     (
                         new SigningCredentials
                         (
-                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(myKey)),
+                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_myKey)),
                             SecurityAlgorithms.HmacSha256
                         )
                      ),

@@ -18,20 +18,19 @@ namespace CarDetailingGarage
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IJwtManage jwtManage;
+        private readonly IJwtManage _jwtManage;
         public AuthController(IJwtManage jwtManage)
         {
-            this.jwtManage = jwtManage;
+            this._jwtManage = jwtManage;
         }
-
 
         // POST api/<AuthController>
         [HttpPost]
-        public IActionResult Create(AuthModel authModel)
+        public async Task<IActionResult> Create(AuthModel authModel)
         {
-            if (jwtManage.IsValidUserNameAndPassowrd(authModel))
+            if (await _jwtManage.IsValidUserNameAndPassowrd(authModel))
             {
-                return new ObjectResult(jwtManage.GenerateToken(authModel));
+                return new ObjectResult(await _jwtManage.GenerateToken(authModel));
             }
             else
             {
