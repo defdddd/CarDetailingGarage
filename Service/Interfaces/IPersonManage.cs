@@ -6,7 +6,7 @@ namespace Service.Manage
 {
     public interface IPersonManage
     {
-        Task<IEnumerable<PersonModel>> GetAllPage(int pageSize, int pageNumber);
-        Task<PersonModel> Search(string userName);
+        Task<IEnumerable<PersonModel>> GetAllPageAsync(int pageSize, int pageNumber);
+        Task<PersonModel> SearchByUserNameAsync(string userName);
     }
 }

@@ -37,9 +37,9 @@ namespace DataAccess.Data
         {
            return await _sqlDataAccess.SaveData<PersonModel, PersonModel>("UpdatePerson",value);  
         }
-        public async Task<PersonModel> SearchAsync(string fullName)
+        public async Task<PersonModel> SearchByUserNameAsync(string userName)
         {
-           return await _sqlDataAccess.SaveData<PersonModel, dynamic>("SearchPerson", new { Name = fullName });          
+           return await _sqlDataAccess.SaveData<PersonModel, dynamic>("SearchPersonUserName", new { UserName = userName });          
         }
         public async Task DeleteAsync(PersonModel value)
         {

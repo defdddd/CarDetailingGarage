@@ -16,13 +16,13 @@ namespace Service.Manage
         {
             this._personData = _personData;
         }
-        public async Task<IEnumerable<PersonModel>> GetAllPage(int pageSize, int pageNumber)
+        public async Task<IEnumerable<PersonModel>> GetAllPageAsync(int pageSize, int pageNumber)
         {
-            return await _personData.GetAll(pageNumber, pageSize);
+            return await _personData.GetAllAsync(pageNumber, pageSize);
         }
-        public async Task<PersonModel> Search(string userName)
+        public async Task<PersonModel> SearchByUserNameAsync(string userName)
         {
-            var user = await _personData.Search(userName);
+            var user = await _personData.SearchByUserNameAsync(userName);
             return user ?? throw new Exception("User not Found");
         }
     }

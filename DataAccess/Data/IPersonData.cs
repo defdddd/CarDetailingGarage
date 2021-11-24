@@ -9,7 +9,7 @@ namespace DataAccess.Data
         Task DeleteAsync(PersonModel value);
         Task<IEnumerable<PersonModel>> GetAllAsync(int pageNumber, int pageSize);
         Task<PersonModel> InsertAsync(PersonModel value);
-        Task<PersonModel> SearchAsync(string fullName);
+        Task<PersonModel> SearchByUserNameAsync(string userName);
         Task<PersonModel> UpdateAsync(PersonModel value);
     }
 }

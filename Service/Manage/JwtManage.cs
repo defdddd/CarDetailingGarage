@@ -25,7 +25,7 @@ namespace Service.Manage
 
         public async Task<bool> IsValidUserNameAndPassowrd(AuthModel authModel)
         {
-            var user = await _personData.Search(authModel.UserName);
+            var user = await _personData.SearchByUserNameAsync(authModel.UserName);
             if (user == null) return false;
             if (user.Password != authModel.Password) return false;
             return true;
@@ -33,7 +33,7 @@ namespace Service.Manage
         public async Task<dynamic> GenerateToken(AuthModel authModel)
         {
             var username = authModel.UserName;
-            var user = await _personData.Search(username);
+            var user = await _personData.SearchByUserNameAsync(username);
 
             var claims = new List<Claim>
             {
