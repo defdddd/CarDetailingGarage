@@ -1,4 +1,5 @@
-﻿using DataAccess.Data;
+﻿
+using DataAccess.UnitOfWork;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Service.Manage;
@@ -17,7 +18,7 @@ namespace DependencyInjection
             services.AddSingleton<IJwtManage>
               (
                 provider => 
-                     new JwtManage(provider.GetService<IPersonData>(), Config.GetConnectionString("MySecretKey"))
+                     new JwtManage(provider.GetService<IUnitOfWork>(), Config.GetConnectionString("MySecretKey"))
               );
 
             services.AddSingleton<IPersonManage,PersonManage>();

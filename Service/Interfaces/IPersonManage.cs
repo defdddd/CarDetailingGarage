@@ -1,12 +1,12 @@
 ﻿using Models;
+using Service.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Service.Manage
 {
-    public interface IPersonManage
+    public interface IPersonManage : IManage<PersonModel>
     {
-        Task<IEnumerable<PersonModel>> GetAllPageAsync(int pageSize, int pageNumber);
         Task<PersonModel> SearchByUserNameAsync(string userName);
     }
 }

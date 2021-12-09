@@ -1,4 +1,5 @@
 ﻿using DataAccess.Data;
+using DataAccess.UnitOfWork;
 using Microsoft.IdentityModel.Tokens;
 using Models;
 using Service.Manage;
@@ -14,18 +15,18 @@ namespace Service.Manage
 {
     public class JwtManage : IJwtManage
     {
-        private readonly IPersonData _personData;
+        private readonly IUnitOfWork _unitOfwork;
         private readonly string _myKey;
 
-        public JwtManage(IPersonData _personData, string _myKey)
+        public JwtManage(IUnitOfWork unitOfwork, string _myKey)
         {
-            this._personData = _personData;
+            this._unitOfwork = unitOfwork;
             this._myKey = _myKey;
         }
 
         public async Task<bool> IsValidUserNameAndPassowrd(AuthModel authModel)
         {
-            var user = await _personData.SearchByUserNameAsync(authModel.UserName);
+            var user = await _unitOfwork.PersonRepository.SearchByUserNameAsync(authModel.UserName);
             if (user == null) return false;
             if (user.Password != authModel.Password) return false;
             return true;
@@ -33,7 +34,7 @@ namespace Service.Manage
         public async Task<dynamic> GenerateToken(AuthModel authModel)
         {
             var username = authModel.UserName;
-            var user = await _personData.SearchByUserNameAsync(username);
+            var user = await _unitOfwork.PersonRepository.SearchByUserNameAsync(username);
 
             var claims = new List<Claim>
             {
