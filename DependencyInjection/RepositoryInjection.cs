@@ -11,7 +11,7 @@ namespace DependencyInjection
         public static IServiceCollection RepositoryConfiguration(this IServiceCollection services, IConfiguration Config)
         {
             services.AddSingleton<ISqlDataAccess>(new SqlDataAccess(Config.GetConnectionString("DataBase")));
-            services.AddSingleton<IUnitOfWork,UnitOfWork>();
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

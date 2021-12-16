@@ -31,6 +31,7 @@ namespace DataAccess.Data
                      {
                          UserId = value.UserId,
                          AppointmentId = value.AppointmentId,
+                         Grade = value.Grade,
                          Review = value.Review,
                          IsOke = value.IsOke
                      }

@@ -10,8 +10,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace CarDetailingGarage
 {
     [Route("[controller]")]
@@ -30,7 +28,7 @@ namespace CarDetailingGarage
         {
             if (await _jwtManage.IsValidUserNameAndPassowrd(authModel))
             {
-                return new ObjectResult(await _jwtManage.GenerateToken(authModel));
+                return Ok(await _jwtManage.GenerateToken(authModel));
             }
             else
             {

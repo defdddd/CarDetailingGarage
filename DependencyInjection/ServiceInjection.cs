@@ -21,7 +21,7 @@ namespace DependencyInjection
                      new JwtManage(provider.GetService<IUnitOfWork>(), Config.GetConnectionString("MySecretKey"))
               );
 
-            services.AddSingleton<IPersonManage,PersonManage>();
+            services.AddSingleton<IPersonManage, PersonManage>();
             return services;
         }
     }
