@@ -9,8 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
-    <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\CDG.Validation\CDG.Validation.csproj" />
+    <ProjectReference Include="..\DataAccess\CDG.DataAccess.csproj" />
+    <ProjectReference Include="..\Models\CDG.Models.csproj" />
   </ItemGroup>
 
 </Project>

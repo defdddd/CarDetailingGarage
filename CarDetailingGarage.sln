@@ -5,13 +5,15 @@ VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarDetailingGarage", "CarDetailingGarage\CarDetailingGarage.csproj", "{C9F3E391-0AEB-4AF4-B9EC-AE44EB4ABABD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{D9F1DAD5-70ED-4552-B787-4492C96F3388}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CDG.Models", "Models\CDG.Models.csproj", "{D9F1DAD5-70ED-4552-B787-4492C96F3388}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{95B7FC68-55D9-4B12-8B74-284693DE1C3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CDG.Service", "Service\CDG.Service.csproj", "{95B7FC68-55D9-4B12-8B74-284693DE1C3E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyInjection", "DependencyInjection\DependencyInjection.csproj", "{397DF3F1-B965-4889-BE47-33AEA8F8A879}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CDG.DependencyInjection", "DependencyInjection\CDG.DependencyInjection.csproj", "{397DF3F1-B965-4889-BE47-33AEA8F8A879}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{54498B90-D6E9-4B33-9229-070EC52352A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CDG.DataAccess", "DataAccess\CDG.DataAccess.csproj", "{54498B90-D6E9-4B33-9229-070EC52352A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDG.Validation", "CDG.Validation\CDG.Validation.csproj", "{8CEE481B-BC21-4B04-946D-78B3505CD840}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{54498B90-D6E9-4B33-9229-070EC52352A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54498B90-D6E9-4B33-9229-070EC52352A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54498B90-D6E9-4B33-9229-070EC52352A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CEE481B-BC21-4B04-946D-78B3505CD840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CEE481B-BC21-4B04-946D-78B3505CD840}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CEE481B-BC21-4B04-946D-78B3505CD840}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CEE481B-BC21-4B04-946D-78B3505CD840}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

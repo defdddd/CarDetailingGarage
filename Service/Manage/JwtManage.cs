@@ -38,16 +38,16 @@ namespace Service.Manage
 
             var claims = new List<Claim>
             {
-                new Claim("UserName",user.UserName),
+                new Claim("Username",user.UserName),
                 new Claim("Identifier",user.Id+""),
                 new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
                 new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(7)).ToUnixTimeSeconds().ToString())
             };
 
             if (user.IsAdmin)
-                claims.Add(new Claim("Role", "Admin"));
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
             else
-                claims.Add(new Claim("Role", "User"));
+                claims.Add(new Claim(ClaimTypes.Role, "User"));
 
             var token = new JwtSecurityToken
                 (

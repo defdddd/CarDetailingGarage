@@ -28,10 +28,9 @@ namespace DataAccess.Data
             await _sqlDataAccess.SaveData<AppointmentModel, dynamic>("InsertAppointment",
                 new 
                    {
-                        UserName = value.UserName,
+                        UserName = value.FullName,
                         Type = value.Type,
                         Date = value.Date,
-                        EndDate = value.EndDate,
                         Price = value.Price,
                         PersonId = value.PersonId,
                         IsDone = value.IsDone
