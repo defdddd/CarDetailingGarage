@@ -2,6 +2,7 @@
 using DataAccess.UnitOfWork;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Service.Interfaces;
 using Service.Manage;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,10 @@ namespace DependencyInjection
               );
 
             services.AddSingleton<IPersonManage, PersonManage>();
+            services.AddSingleton<IAppointmentManage, AppointmentManage>();
+            services.AddSingleton<IGaragePictureManage, GaragePictureManage>();
+            services.AddSingleton<IReviewerPictureManage, ReviewerPictureManage>();
+            services.AddSingleton<IReviewManage, ReviewManage>();
             return services;
         }
     }

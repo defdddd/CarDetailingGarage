@@ -13,8 +13,7 @@ CREATE TABLE Appointment (
     Id int IDENTITY(1,1) PRIMARY KEY,
     UserName varchar(255),
     Type varchar(255),
-    Date varchar(255),
-    EndDate varchar(255),
+    Date DateTime,
     Price float,
     PersonId int FOREIGN KEY REFERENCES Person(Id),
     IsDone bit
@@ -25,6 +24,7 @@ CREATE TABLE Review (
     Id int IDENTITY(1,1) PRIMARY KEY,
     UserId int FOREIGN KEY REFERENCES Person(Id),
     AppointmentId int FOREIGN KEY REFERENCES Appointment(Id),
+    Grade int,
     Review varchar(255),
     IsOke bit
 );

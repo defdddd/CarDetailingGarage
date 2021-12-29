@@ -11,7 +11,7 @@ namespace CarDetailingGarage.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize(Roles ="Admin,User")]
+    [Authorize(Roles ="Admin")]
     public class PersonController : ControllerBase
     {
         private readonly IPersonManage _personManage;
@@ -26,8 +26,7 @@ namespace CarDetailingGarage.Controllers
         {
             try
             {
-                var pageSize = await _personManage.CountAsync() + 1;
-                return Ok(await _personManage.GetAllAsync(1, pageSize));
+                return Ok(await _personManage.GetAllAsync());
             }
             catch(Exception e)
             {       
@@ -65,7 +64,7 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-        [HttpPost("update")]
+        [HttpPut("update")]
         public async Task<IActionResult> Update([FromBody] PersonModel person)
         {
             try
@@ -78,16 +77,20 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-        // PUT api/<PersonController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
 
         // DELETE api/<PersonController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            try
+            {
+                await _personManage.DeleteAsync(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

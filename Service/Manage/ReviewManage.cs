@@ -25,6 +25,11 @@ namespace Service.Manage
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<ReviewModel>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<ReviewModel> InsertAsync(ReviewModel value)
         {
             throw new NotImplementedException();

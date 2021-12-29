@@ -25,6 +25,11 @@ namespace Service.Manage
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<ReviewerPictureModel>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<ReviewerPictureModel> InsertAsync(ReviewerPictureModel value)
         {
             throw new NotImplementedException();

@@ -13,5 +13,6 @@ namespace Service.Interfaces
         Task<IEnumerable<T>> GetAllAsync(int pageNumber, int pageSize);
         Task<T> InsertAsync(T value);
         Task<T> UpdateAsync(T value);
+        Task<IEnumerable<T>> GetAllAsync();
     }
 }

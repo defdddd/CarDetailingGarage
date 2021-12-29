@@ -25,6 +25,11 @@ namespace Service.Manage
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<AppointmentModel>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<AppointmentModel> InsertAsync(AppointmentModel value)
         {
             throw new NotImplementedException();

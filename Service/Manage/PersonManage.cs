@@ -36,6 +36,15 @@ namespace Service.Manage
                 throw new Exception("This table is empty");
         }
 
+        public async Task<IEnumerable<PersonModel>> GetAllAsync()
+        {
+
+            var pageSize = await _unitOfwork.PersonRepository.CountAsync() + 1;
+            if(pageSize == 1) throw new Exception("This table is empty");
+
+            return await _unitOfwork.PersonRepository.GetAllAsync(1, pageSize);
+        }
+
         public async Task<PersonModel> InsertAsync(PersonModel value)
         {
            var user = await _unitOfwork.PersonRepository.SearchByUserNameAsync(value.UserName);
