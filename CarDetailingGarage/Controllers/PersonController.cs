@@ -11,7 +11,7 @@ namespace CarDetailingGarage.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles ="Admin,User")]
     public class PersonController : ControllerBase
     {
         private readonly IPersonManage _personManage;
@@ -41,7 +41,6 @@ namespace CarDetailingGarage.Controllers
         {
             try
             {
-               // var userId = int.Parse(User.FindFirst("Identifier")?.Value);
                 return Ok(await _personManage.GetAllAsync(pageNumber, pageSize));
             }
             catch (Exception e)
@@ -50,8 +49,35 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-        // POST api/<PersonController>
-        [HttpPost("insert")]
+        // GET api/<PersonController>/5
+        [HttpGet("count")]
+        public async Task<IActionResult> GetSizeOf()
+        {
+            try
+            {               
+                return Ok(await _personManage.CountAsync());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("{userName}")]
+        public async Task<IActionResult> Search(string userName)
+        {
+            try
+            {
+                return Ok(await _personManage.SearchByUserNameAsync(userName));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+            // POST api/<PersonController>
+            [HttpPost("insert")]
         public async Task<IActionResult> Insert([FromBody] PersonModel person)
         {
             try

@@ -23,15 +23,17 @@ namespace CDG.Validation.ModelsValidation
             ErrorMessage = null;
 
             if (IsEmpty(appointment.FullName))
-                ErrorMessage += "Numele este invalid\n";
+                ErrorMessage += "Invalid name\n";
             if (IsEmpty(appointment.Type))
-                ErrorMessage += "Tipul programarii este invalid\n";
+                ErrorMessage += "Invalid Type\n";
             if (appointment.Price < 0)
-                ErrorMessage += "Pretul este invalid\n";
+                ErrorMessage += "Invalid price\n";
             if (appointment.Date < DateTime.Now)
-                ErrorMessage += "Data este invalida\n";
+                ErrorMessage += "Invalid Date\n";
             if(appointment.PersonId < 0)
-                ErrorMessage += "Nu exista persoana asociata\n";
+                ErrorMessage += "Invalid Person\n";
+            if (appointment.IsDone)
+                ErrorMessage += "Appointment done, you can't edit or insert";
 
             return ErrorMessage == null;
         }

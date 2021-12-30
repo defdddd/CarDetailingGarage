@@ -9,5 +9,7 @@ namespace Service.Interfaces
 {
     public interface IAppointmentManage : IManage<AppointmentModel>
     {
+        Task<AppointmentModel> SearchByIdAsync(int id);
+        Task<IEnumerable<AppointmentModel>> GetMyAppointmentsAsync(int personId, int pageNumber, int pageSize);
     }
 }
