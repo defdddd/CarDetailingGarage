@@ -40,6 +40,20 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
+        [HttpGet("MyApp/{pageNumber}/{pageSize}")]
+        public async Task<IActionResult> MyAppointments(int pageNumber, int pageSize)
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst("Identifier")?.Value);
+                return Ok(await _appointmentManage.GetMyAppointmentsAsync(userId, pageNumber, pageSize));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
         // GET api/<PersonController>/5
         [HttpGet("{pageNumber}/{pageSize}")]
@@ -48,7 +62,6 @@ namespace CarDetailingGarage.Controllers
         {
             try
             {
-                // var userId = int.Parse(User.FindFirst("Identifier")?.Value);
                 return Ok(await _appointmentManage.GetAllAsync(pageNumber, pageSize));
             }
             catch (Exception e)
@@ -111,7 +124,8 @@ namespace CarDetailingGarage.Controllers
         public async Task<IActionResult> Update([FromBody] AppointmentModel appointment)
         {
 
-            try{
+            try
+            {
                 var userId = int.Parse(User.FindFirst("Identifier")?.Value);
                 var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
@@ -133,10 +147,28 @@ namespace CarDetailingGarage.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+
             try
             {
-                await _appointmentManage.DeleteAsync(id);
-                return Ok();
+                var userId = int.Parse(User.FindFirst("Identifier")?.Value);
+                var role = User.FindFirst(ClaimTypes.Role)?.Value;
+                var appointment = await _appointmentManage.SearchByIdAsync(id);
+                if (appointment is null) return BadRequest("User that you are trying to delete does no exists");
+
+                if (role == "Admin") 
+                {
+                    await _appointmentManage.DeleteAsync(id);
+                    return Ok();
+                }
+                else
+                {
+                    if (appointment.PersonId == userId) 
+                    {
+                        await _appointmentManage.DeleteAsync(userId);
+                        return Ok();
+                    }
+                    else return BadRequest("You don t have access to edit this value");
+                }
             }
             catch (Exception e)
             {

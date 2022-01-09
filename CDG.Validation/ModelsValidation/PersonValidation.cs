@@ -29,15 +29,15 @@ namespace CDG.Validation.ModelsValidation
             ErrorMessage = null;
 
             if (IsEmpty(person.Name))
-                ErrorMessage += "Numele este invalid\n";
+                ErrorMessage += "This name is not a valid one\n";
             if (IsEmpty(person.Password))
-                ErrorMessage += "Parola este invalida\n";
+                ErrorMessage += "The selected passowrd is invalid\n";
             if (IsEmpty(person.UserName))
-                ErrorMessage += "Numele de utilizator este invalid\n";
+                ErrorMessage += "The name of the user is invalid\n";
             if (IsEmpty(person.Phone) || person.Phone.Length != 10)
-                ErrorMessage += "Telefonul este invalid\n";
+                ErrorMessage += "The phone number is invalid\n";
             if (IsEmpty(person.Email) || IsNotValidEmail(person.Email))
-                ErrorMessage += "Emailul este invalid\n";
+                ErrorMessage += "The selected email is invalid\n";
 
             return ErrorMessage == null;
         }

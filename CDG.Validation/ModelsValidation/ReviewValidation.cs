@@ -24,11 +24,11 @@ namespace CDG.Validation.ModelsValidation
             ErrorMessage = null;
 
             if (review.Grade <= 0 || review.Grade > 10)
-                ErrorMessage += "Nota este invalida\n";
+                ErrorMessage += "Invalid grade\n";
             if (IsEmpty(review.Review))
-                ErrorMessage += "Review ul este invalid\n";
+                ErrorMessage += "This review is invalid\n";
             if (review.UserId < 0)
-                ErrorMessage += "Acest utilizator nu exista\n";
+                ErrorMessage += "This user does not exists\n";
 
             return ErrorMessage == null;
         }

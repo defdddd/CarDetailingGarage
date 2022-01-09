@@ -9,5 +9,6 @@ namespace Service.Interfaces
 {
     public interface IGaragePictureManage : IManage<GaragePictureModel>
     {
+        public Task<IEnumerable<GaragePictureModel>> GetAppointmentPicturesAsync(int appointmentId, int pageNumber, int pageSize);
     }
 }

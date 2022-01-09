@@ -33,5 +33,20 @@ namespace DataAccess.Data
                         ImagePath = value.ImagePath
                     }
                 );
+
+        public async Task<IEnumerable<GaragePictureModel>> GetAppointmentPicturesAsync(int appointmentId, int pageNumber, int pageSize) =>
+            await _sqlDataAccess.LoadData<GaragePictureModel, dynamic>("GetAppointmentPictures",
+                new
+                {
+                    AppointmentId = appointmentId,
+                    pageNumber = pageNumber,
+                    pageSize = pageSize
+                }
+                );
+
+        public Task<GaragePictureModel> SearchByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

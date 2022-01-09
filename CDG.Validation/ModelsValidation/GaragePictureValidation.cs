@@ -23,11 +23,11 @@ namespace CDG.Validation.ModelsValidation
             ErrorMessage = null;
 
             if (IsEmpty(garagePicture.FileName))
-                ErrorMessage += "Numele fisierului este invalid\n";
+                ErrorMessage += "The name of the file is invalid\n";
             if (IsEmpty(garagePicture.ImagePath))
-                ErrorMessage += "Locatia fisierului este invalida\n";
+                ErrorMessage += "The location of the file is invalid\n";
             if (garagePicture.AppointmentId < 0)
-                ErrorMessage += "Nu exista aceasta programare\n";
+                ErrorMessage += "The selected appointment does not exists\n";
 
             return ErrorMessage == null;
         }

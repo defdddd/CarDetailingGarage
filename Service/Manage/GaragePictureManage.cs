@@ -1,4 +1,6 @@
-﻿using Models.Pictures;
+﻿using CDG.Validation.ModelsValidation;
+using DataAccess.UnitOfWork;
+using Models.Pictures;
 using Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,34 +12,72 @@ namespace Service.Manage
 {
     public class GaragePictureManage : IGaragePictureManage
     {
-        public Task<int> CountAsync()
+
+        private IUnitOfWork _unitOfWork;
+        public GaragePictureManage(IUnitOfWork unitOfWork)
         {
-            throw new NotImplementedException();
+            _unitOfWork = unitOfWork;
+        }
+        public async Task<int> CountAsync()
+        {
+            return await _unitOfWork.GaragePictureRepository.CountAsync();
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.GaragePictureRepository.DeleteAsync(id);
         }
 
-        public Task<IEnumerable<GaragePictureModel>> GetAllAsync(int pageNumber, int pageSize)
+        public async Task<IEnumerable<GaragePictureModel>> GetAllAsync(int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            if (pageNumber < 1 || pageSize < 1) throw new Exception("Invalid data");
+
+            return await _unitOfWork.GaragePictureRepository.GetAllAsync(pageNumber, pageSize) ??
+                throw new Exception("This table is empty");
         }
 
-        public Task<IEnumerable<GaragePictureModel>> GetAllAsync()
+        public async Task<IEnumerable<GaragePictureModel>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var pageSize = await _unitOfWork.GaragePictureRepository.CountAsync() + 1;
+            if (pageSize == 1) throw new Exception("This table is empty");
+
+            return await _unitOfWork.GaragePictureRepository.GetAllAsync(1, pageSize);
         }
 
-        public Task<GaragePictureModel> InsertAsync(GaragePictureModel value)
+        public async Task<IEnumerable<GaragePictureModel>> GetAppointmentPicturesAsync(int appointmentId, int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            if (pageNumber < 1 || pageSize < 1) throw new Exception("Invalid data");
+
+            return await _unitOfWork.GaragePictureRepository.GetAppointmentPicturesAsync(appointmentId, pageNumber, pageSize) ??
+                throw new Exception("This table is empty");
         }
 
-        public Task<GaragePictureModel> UpdateAsync(GaragePictureModel value)
+        public async Task<GaragePictureModel> InsertAsync(GaragePictureModel value)
         {
-            throw new NotImplementedException();
+            var GaragePicture = await _unitOfWork.GaragePictureRepository.SearchByIdAsync(value.Id);
+
+            if (GaragePicture != null) throw new Exception("GaragePicture already exists");
+
+            if (!GaragePictureValidation.CheckProperties(value)) throw new Exception(GaragePictureValidation.ErrorMessage);
+
+            return await _unitOfWork.GaragePictureRepository.InsertAsync(value);
         }
+
+        public async Task<GaragePictureModel> SearchByIdAsync(int id)
+        {
+            return await _unitOfWork.GaragePictureRepository.SearchByIdAsync(id) ?? throw new Exception("GaragePicture does not exists");
+        }
+
+        public async Task<GaragePictureModel> UpdateAsync(GaragePictureModel value)
+        {
+            var GaragePicture = await _unitOfWork.GaragePictureRepository.SearchByIdAsync(value.Id);
+
+            if (GaragePicture is null) throw new Exception("GaragePicture does not exists");
+
+            if (!GaragePictureValidation.CheckProperties(value)) throw new Exception(GaragePictureValidation.ErrorMessage);
+
+            return await _unitOfWork.GaragePictureRepository.UpdateAsync(value);
+        }
+       
     }
 }
