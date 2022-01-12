@@ -44,9 +44,7 @@ namespace DataAccess.Data
                 }
                 );
 
-        public Task<GaragePictureModel> SearchByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<GaragePictureModel> SearchByIdAsync(int id) =>
+            await _sqlDataAccess.SaveData<GaragePictureModel, dynamic>("SearchGaragePictureById", new { Id = id });
     }
 }

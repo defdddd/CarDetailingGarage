@@ -10,6 +10,8 @@ namespace DataAccess.Data.Interface
 {
     public interface IReviewRepository : IRepository<ReviewModel>
     {
+        Task<ReviewModel> SearchByIdAsync(int id);
+        Task<IEnumerable<ReviewModel>> GetMyReviewsAsync(int userId, int pageNumber, int pageSize);
 
     }
 }

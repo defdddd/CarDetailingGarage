@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using Models.Pictures;
 using Service.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -14,14 +13,13 @@ namespace CarDetailingGarage.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,User")]
-    public class AppointmentController : ControllerBase
+    public class ReviewerPictureController : ControllerBase
     {
-        private readonly IAppointmentManage _appointmentManage;
+        private readonly IReviewerPictureManage _reviewerPictureManage;
 
-        public AppointmentController(IAppointmentManage appointmentManage)
+        public ReviewerPictureController(IReviewerPictureManage reviewerPictureManage)
         {
-            _appointmentManage = appointmentManage;
+            _reviewerPictureManage = reviewerPictureManage;
         }
 
 
@@ -32,7 +30,7 @@ namespace CarDetailingGarage.Controllers
         {
             try
             {
-                return Ok(await _appointmentManage.GetAllAsync());
+                return Ok(await _reviewerPictureManage.GetAllAsync());
             }
             catch (Exception e)
             {
@@ -40,14 +38,12 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-        [HttpGet("{}/{pageSize}")]
-        public async Task<IActionResult> MyAppointments(int pageNumber, int pageSize)
+        [HttpGet("{reviewId}/{appointmentId}")]
+        public async Task<IActionResult> GetReviewPicture(int reviewId, int appointmentId)
         {
             try
             {
-                var userId = int.Parse(User.FindFirst("Identifier")?.Value);
-
-                return Ok(await _appointmentManage.GetMyAppointmentsAsync(userId, pageNumber, pageSize));
+                return Ok(await _reviewerPictureManage.GetReviewPicturesAsync(reviewId,appointmentId));
             }
             catch (Exception e)
             {
@@ -55,15 +51,13 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-
-        // GET api/<PersonController>/5
         [HttpGet("{pageNumber}/{pageSize}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetAll(int pageNumber, int pageSize)
+        public async Task<IActionResult> MyReviewerPictures(int pageNumber, int pageSize)
         {
             try
             {
-                return Ok(await _appointmentManage.GetAllAsync(pageNumber, pageSize));
+                return Ok(await _reviewerPictureManage.GetAllAsync(pageNumber, pageSize));
             }
             catch (Exception e)
             {
@@ -71,12 +65,12 @@ namespace CarDetailingGarage.Controllers
             }
         }
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> Search(int id)
         {
             try
             {
-                return Ok(await _appointmentManage.SearchByIdAsync(id));
+                return Ok(await _reviewerPictureManage.SearchByIdAsync(id));
             }
             catch (Exception e)
             {
@@ -86,12 +80,11 @@ namespace CarDetailingGarage.Controllers
 
         // GET api/<PersonController>/5
         [HttpGet("count")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetSizeOf()
         {
             try
             {
-                return Ok(await _appointmentManage.CountAsync());
+                return Ok(await _reviewerPictureManage.CountAsync());
             }
             catch (Exception e)
             {
@@ -101,13 +94,14 @@ namespace CarDetailingGarage.Controllers
 
         // POST api/<PersonController>
         [HttpPost("insert")]
-        public async Task<IActionResult> Insert([FromBody] AppointmentModel appointment)
+        [Authorize(Roles = "Admin,User")]
+        public async Task<IActionResult> Insert([FromBody] ReviewerPictureModel ReviewerPicture)
         {
             try
             {
-                CheckRole(appointment);
+                await CheckRole(ReviewerPicture);
 
-                return Ok(await _appointmentManage.InsertAsync(appointment));     
+                return Ok(await _reviewerPictureManage.InsertAsync(ReviewerPicture));
             }
             catch (Exception e)
             {
@@ -116,14 +110,16 @@ namespace CarDetailingGarage.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update([FromBody] AppointmentModel appointment)
+        [Authorize(Roles = "Admin,User")]
+
+        public async Task<IActionResult> Update([FromBody] ReviewerPictureModel ReviewerPicture)
         {
 
             try
             {
-                CheckRole(appointment);
+                await CheckRole(ReviewerPicture);
 
-                return Ok(await _appointmentManage.UpdateAsync(appointment));
+                return Ok(await _reviewerPictureManage.UpdateAsync(ReviewerPicture));
             }
             catch (Exception e)
             {
@@ -134,17 +130,19 @@ namespace CarDetailingGarage.Controllers
 
         // DELETE api/<PersonController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                var appointment = await _appointmentManage.SearchByIdAsync(id);
+                var ReviewerPicture = await _reviewerPictureManage.SearchByIdAsync(id);
 
-                CheckRole(appointment);
+                await CheckRole(ReviewerPicture);
 
-                await _appointmentManage.DeleteAsync(id);
+                await _reviewerPictureManage.DeleteAsync(id);
 
-                return Ok();                    
+                return Ok();
+
             }
             catch (Exception e)
             {
@@ -152,13 +150,13 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-        private void CheckRole(AppointmentModel appointment)
+        private async Task CheckRole(ReviewerPictureModel reviewerPictureModel)
         {
             var userId = int.Parse(User.FindFirst("Identifier")?.Value);
 
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
-            if (!(role == "Admin" || appointment.PersonId == userId))
+            if (!(role == "Admin" || await _reviewerPictureManage.GetUserId(reviewerPictureModel) == userId))
                 throw new Exception("You don t have access to modify or insert this value");
 
         }

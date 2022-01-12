@@ -4,7 +4,6 @@ using Models;
 using Service.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -15,13 +14,13 @@ namespace CarDetailingGarage.Controllers
     [Route("[controller]")]
     [ApiController]
     [Authorize(Roles = "Admin,User")]
-    public class AppointmentController : ControllerBase
+    public class ReviewController : ControllerBase
     {
-        private readonly IAppointmentManage _appointmentManage;
+        private readonly IReviewManage _reviewManage;
 
-        public AppointmentController(IAppointmentManage appointmentManage)
+        public ReviewController(IReviewManage reviewManage)
         {
-            _appointmentManage = appointmentManage;
+            _reviewManage = reviewManage;
         }
 
 
@@ -32,7 +31,7 @@ namespace CarDetailingGarage.Controllers
         {
             try
             {
-                return Ok(await _appointmentManage.GetAllAsync());
+                return Ok(await _reviewManage.GetAllAsync());
             }
             catch (Exception e)
             {
@@ -40,14 +39,13 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-        [HttpGet("{}/{pageSize}")]
-        public async Task<IActionResult> MyAppointments(int pageNumber, int pageSize)
+        [HttpGet("MyRev/{pageNumber}/{pageSize}")]
+        public async Task<IActionResult> MyReviews(int pageNumber, int pageSize)
         {
             try
             {
                 var userId = int.Parse(User.FindFirst("Identifier")?.Value);
-
-                return Ok(await _appointmentManage.GetMyAppointmentsAsync(userId, pageNumber, pageSize));
+                return Ok(await _reviewManage.GetMyReviewsAsync(userId, pageNumber, pageSize));
             }
             catch (Exception e)
             {
@@ -63,7 +61,7 @@ namespace CarDetailingGarage.Controllers
         {
             try
             {
-                return Ok(await _appointmentManage.GetAllAsync(pageNumber, pageSize));
+                return Ok(await _reviewManage.GetAllAsync(pageNumber, pageSize));
             }
             catch (Exception e)
             {
@@ -76,7 +74,7 @@ namespace CarDetailingGarage.Controllers
         {
             try
             {
-                return Ok(await _appointmentManage.SearchByIdAsync(id));
+                return Ok(await _reviewManage.SearchByIdAsync(id));
             }
             catch (Exception e)
             {
@@ -91,7 +89,7 @@ namespace CarDetailingGarage.Controllers
         {
             try
             {
-                return Ok(await _appointmentManage.CountAsync());
+                return Ok(await _reviewManage.CountAsync());
             }
             catch (Exception e)
             {
@@ -101,13 +99,13 @@ namespace CarDetailingGarage.Controllers
 
         // POST api/<PersonController>
         [HttpPost("insert")]
-        public async Task<IActionResult> Insert([FromBody] AppointmentModel appointment)
+        public async Task<IActionResult> Insert([FromBody] ReviewModel Review)
         {
             try
             {
-                CheckRole(appointment);
+                CheckRole(Review);
 
-                return Ok(await _appointmentManage.InsertAsync(appointment));     
+                return Ok(await _reviewManage.InsertAsync(Review));
             }
             catch (Exception e)
             {
@@ -116,14 +114,14 @@ namespace CarDetailingGarage.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update([FromBody] AppointmentModel appointment)
+        public async Task<IActionResult> Update([FromBody] ReviewModel Review)
         {
 
             try
             {
-                CheckRole(appointment);
+                CheckRole(Review);
 
-                return Ok(await _appointmentManage.UpdateAsync(appointment));
+                return Ok(await _reviewManage.UpdateAsync(Review));
             }
             catch (Exception e)
             {
@@ -136,15 +134,17 @@ namespace CarDetailingGarage.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+
             try
             {
-                var appointment = await _appointmentManage.SearchByIdAsync(id);
+                var Review = await _reviewManage.SearchByIdAsync(id);
 
-                CheckRole(appointment);
+                CheckRole(Review);
 
-                await _appointmentManage.DeleteAsync(id);
+                await _reviewManage.DeleteAsync(id);
 
-                return Ok();                    
+                return Ok();
+
             }
             catch (Exception e)
             {
@@ -152,13 +152,14 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-        private void CheckRole(AppointmentModel appointment)
+        private void CheckRole(ReviewModel Review)
         {
+
             var userId = int.Parse(User.FindFirst("Identifier")?.Value);
 
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
-            if (!(role == "Admin" || appointment.PersonId == userId))
+            if (!(role == "Admin" || Review.UserId == userId))
                 throw new Exception("You don t have access to modify or insert this value");
 
         }

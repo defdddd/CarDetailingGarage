@@ -9,5 +9,7 @@ namespace Service.Interfaces
 {
     public interface IReviewManage : IManage<ReviewModel>
     {
+        Task<ReviewModel> SearchByIdAsync(int id);
+        Task<IEnumerable<ReviewModel>> GetMyReviewsAsync(int userId, int pageNumber, int pageSize);
     }
 }

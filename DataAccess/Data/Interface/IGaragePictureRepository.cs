@@ -10,7 +10,7 @@ namespace DataAccess.Data.Interface
 {
     public interface IGaragePictureRepository : IRepository<GaragePictureModel>
     {
-        Task<IEnumerable<GaragePictureModel>> GetAppointmentPicturesAsync(int personId, int pageNumber, int pageSize);
+        Task<IEnumerable<GaragePictureModel>> GetAppointmentPicturesAsync(int appointmentId, int pageNumber, int pageSize);
         Task<GaragePictureModel> SearchByIdAsync(int id);
     }
 }

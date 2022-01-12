@@ -1,4 +1,6 @@
-﻿using Models;
+﻿using CDG.Validation.ModelsValidation;
+using DataAccess.UnitOfWork;
+using Models;
 using Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,34 +12,78 @@ namespace Service.Manage
 {
     public class ReviewManage : IReviewManage
     {
-        public Task<int> CountAsync()
+        private IUnitOfWork _unitOfWork;
+        public ReviewManage(IUnitOfWork unitOfWork)
         {
-            throw new NotImplementedException();
+            _unitOfWork = unitOfWork;
+        }
+        public async Task<int> CountAsync()
+        {
+            return await _unitOfWork.ReviewRepository.CountAsync();
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.ReviewRepository.DeleteAsync(id);
         }
 
-        public Task<IEnumerable<ReviewModel>> GetAllAsync(int pageNumber, int pageSize)
+        public async Task<IEnumerable<ReviewModel>> GetAllAsync(int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            if (pageNumber < 1 || pageSize < 1) throw new Exception("Invalid data");
+
+            return await _unitOfWork.ReviewRepository.GetAllAsync(pageNumber, pageSize) ??
+                throw new Exception("This table is empty");
         }
 
-        public Task<IEnumerable<ReviewModel>> GetAllAsync()
+        public async Task<IEnumerable<ReviewModel>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var pageSize = await _unitOfWork.ReviewRepository.CountAsync() + 1;
+            if (pageSize == 1) throw new Exception("This table is empty");
+
+            return await _unitOfWork.ReviewRepository.GetAllAsync(1, pageSize);
         }
 
-        public Task<ReviewModel> InsertAsync(ReviewModel value)
+        public async Task<IEnumerable<ReviewModel>> GetMyReviewsAsync(int personId, int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            if (pageNumber < 1 || pageSize < 1) throw new Exception("Invalid data");
+
+            return await _unitOfWork.ReviewRepository.GetMyReviewsAsync(personId, pageNumber, pageSize) ??
+                throw new Exception("This table is empty");
         }
 
-        public Task<ReviewModel> UpdateAsync(ReviewModel value)
+        public async Task<ReviewModel> InsertAsync(ReviewModel value)
         {
-            throw new NotImplementedException();
+            var Review = await _unitOfWork.ReviewRepository.SearchByIdAsync(value.Id);
+
+            var appointment = await _unitOfWork.AppointmentRepository.SearchByIdAsync(value.AppointmentId);
+
+            if (appointment == null) throw new Exception("The selected appointment does not exits");
+
+            if (Review != null) throw new Exception("Review already exists");
+
+            if (!ReviewValidation.CheckProperties(value)) throw new Exception(ReviewValidation.ErrorMessage);
+
+            return await _unitOfWork.ReviewRepository.InsertAsync(value);
+        }
+
+        public async Task<ReviewModel> SearchByIdAsync(int id)
+        {
+            return await _unitOfWork.ReviewRepository.SearchByIdAsync(id) ?? throw new Exception("Review does not exists");
+        }
+
+        public async Task<ReviewModel> UpdateAsync(ReviewModel value)
+        {
+            var Review = await _unitOfWork.ReviewRepository.SearchByIdAsync(value.Id);
+
+            var appointment = await _unitOfWork.AppointmentRepository.SearchByIdAsync(value.AppointmentId);
+
+            if (appointment == null) throw new Exception("The selected appointment does not exits");
+
+            if (Review is null) throw new Exception("Review does not exists");
+
+            if (!ReviewValidation.CheckProperties(value)) throw new Exception(ReviewValidation.ErrorMessage);
+
+            return await _unitOfWork.ReviewRepository.UpdateAsync(value);
         }
     }
 }

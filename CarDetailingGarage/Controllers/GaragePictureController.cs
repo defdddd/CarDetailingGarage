@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using Models.Pictures;
 using Service.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -14,16 +13,14 @@ namespace CarDetailingGarage.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,User")]
-    public class AppointmentController : ControllerBase
+    public class GaragePictureController : ControllerBase
     {
-        private readonly IAppointmentManage _appointmentManage;
+        private readonly IGaragePictureManage _garagePictureManage;
 
-        public AppointmentController(IAppointmentManage appointmentManage)
+        public GaragePictureController(IGaragePictureManage garagePictureManage)
         {
-            _appointmentManage = appointmentManage;
+            _garagePictureManage = garagePictureManage;
         }
-
 
         // GET: api/<PersonController>
         [HttpGet("all")]
@@ -32,38 +29,21 @@ namespace CarDetailingGarage.Controllers
         {
             try
             {
-                return Ok(await _appointmentManage.GetAllAsync());
+                return Ok(await _garagePictureManage.GetAllAsync());
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
-
-        [HttpGet("{}/{pageSize}")]
-        public async Task<IActionResult> MyAppointments(int pageNumber, int pageSize)
-        {
-            try
-            {
-                var userId = int.Parse(User.FindFirst("Identifier")?.Value);
-
-                return Ok(await _appointmentManage.GetMyAppointmentsAsync(userId, pageNumber, pageSize));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
 
         // GET api/<PersonController>/5
         [HttpGet("{pageNumber}/{pageSize}")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAll(int pageNumber, int pageSize)
         {
             try
             {
-                return Ok(await _appointmentManage.GetAllAsync(pageNumber, pageSize));
+                return Ok(await _garagePictureManage.GetAllAsync(pageNumber, pageSize));
             }
             catch (Exception e)
             {
@@ -76,7 +56,7 @@ namespace CarDetailingGarage.Controllers
         {
             try
             {
-                return Ok(await _appointmentManage.SearchByIdAsync(id));
+                return Ok(await _garagePictureManage.SearchByIdAsync(id));
             }
             catch (Exception e)
             {
@@ -91,7 +71,20 @@ namespace CarDetailingGarage.Controllers
         {
             try
             {
-                return Ok(await _appointmentManage.CountAsync());
+                return Ok(await _garagePictureManage.CountAsync());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("{appointmentId}/{pageNumber}/{pageSize}")]
+        public async Task<IActionResult> AppointmentPicture(int appointmentId, int pageNumber, int pageSize)
+        {
+            try
+            { 
+               return Ok(await _garagePictureManage.GetAppointmentPicturesAsync(appointmentId, pageNumber, pageSize));
             }
             catch (Exception e)
             {
@@ -101,13 +94,13 @@ namespace CarDetailingGarage.Controllers
 
         // POST api/<PersonController>
         [HttpPost("insert")]
-        public async Task<IActionResult> Insert([FromBody] AppointmentModel appointment)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Insert([FromBody] GaragePictureModel garagePicture)
         {
             try
             {
-                CheckRole(appointment);
+                return Ok(await _garagePictureManage.InsertAsync(garagePicture));
 
-                return Ok(await _appointmentManage.InsertAsync(appointment));     
             }
             catch (Exception e)
             {
@@ -116,14 +109,12 @@ namespace CarDetailingGarage.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update([FromBody] AppointmentModel appointment)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update([FromBody] GaragePictureModel garagePicture)
         {
-
             try
             {
-                CheckRole(appointment);
-
-                return Ok(await _appointmentManage.UpdateAsync(appointment));
+               return Ok(await _garagePictureManage.UpdateAsync(garagePicture));
             }
             catch (Exception e)
             {
@@ -134,34 +125,20 @@ namespace CarDetailingGarage.Controllers
 
         // DELETE api/<PersonController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                var appointment = await _appointmentManage.SearchByIdAsync(id);
-
-                CheckRole(appointment);
-
-                await _appointmentManage.DeleteAsync(id);
-
-                return Ok();                    
+           try
+            {                          
+                await _garagePictureManage.DeleteAsync(id);
+                return Ok();            
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
-
-        private void CheckRole(AppointmentModel appointment)
-        {
-            var userId = int.Parse(User.FindFirst("Identifier")?.Value);
-
-            var role = User.FindFirst(ClaimTypes.Role)?.Value;
-
-            if (!(role == "Admin" || appointment.PersonId == userId))
-                throw new Exception("You don t have access to modify or insert this value");
-
-        }
-
     }
+
 }
+

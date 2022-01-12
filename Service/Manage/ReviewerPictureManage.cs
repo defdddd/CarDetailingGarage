@@ -30,7 +30,22 @@ namespace Service.Manage
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<ReviewerPictureModel>> GetReviewPicturesAsync(int reviewId, int appointmentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetUserId(ReviewerPictureModel reviewerPictureModel)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<ReviewerPictureModel> InsertAsync(ReviewerPictureModel value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReviewerPictureModel> SearchByIdAsync(int id)
         {
             throw new NotImplementedException();
         }

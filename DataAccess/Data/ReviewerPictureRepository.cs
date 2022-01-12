@@ -34,5 +34,15 @@ namespace DataAccess.Data
                         ImagePath = value.ImagePath
                     }
                 );
+
+        public Task<IEnumerable<ReviewerPictureModel>> GetReviewPicturesAsync(int reviewId, int appointmentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReviewerPictureModel> SearchByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
