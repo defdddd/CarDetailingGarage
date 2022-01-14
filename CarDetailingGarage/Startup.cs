@@ -1,4 +1,4 @@
-using DependencyInjection;
+using CDG.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -44,6 +44,7 @@ namespace CarDetailingGarage
             });
             services.RepositoryConfiguration(Configuration);
             services.ServiceConfiguration(Configuration);
+            services.ValidationConfiguration();
             services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = "JwtBearer";

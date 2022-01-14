@@ -1,5 +1,6 @@
-﻿using CDG.Validation.ModelsValidation;
+﻿using CDG.Validation.ValidatorTool;
 using DataAccess.UnitOfWork;
+using FluentValidation;
 using Models.Pictures;
 using Service.Interfaces;
 using System;
@@ -14,9 +15,12 @@ namespace Service.Manage
     {
 
         private IUnitOfWork _unitOfWork;
-        public GaragePictureManage(IUnitOfWork unitOfWork)
+        private IValidator<GaragePictureModel> _validator;
+
+        public GaragePictureManage(IUnitOfWork unitOfWork, IValidator<GaragePictureModel> validator)
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork ?? throw new NullReferenceException(nameof(unitOfWork));
+            _validator = validator ?? throw new NullReferenceException(nameof(validator));
         }
         public async Task<int> CountAsync()
         {
@@ -58,7 +62,7 @@ namespace Service.Manage
 
             if (GaragePicture != null) throw new Exception("GaragePicture already exists");
 
-            if (!GaragePictureValidation.CheckProperties(value)) throw new Exception(GaragePictureValidation.ErrorMessage);
+            ValidatorTool.FluentValidate(_validator, value);
 
             return await _unitOfWork.GaragePictureRepository.InsertAsync(value);
         }
@@ -74,7 +78,7 @@ namespace Service.Manage
 
             if (GaragePicture is null) throw new Exception("GaragePicture does not exists");
 
-            if (!GaragePictureValidation.CheckProperties(value)) throw new Exception(GaragePictureValidation.ErrorMessage);
+            ValidatorTool.FluentValidate(_validator, value);
 
             return await _unitOfWork.GaragePictureRepository.UpdateAsync(value);
         }

@@ -1,6 +1,7 @@
-﻿using CDG.Validation.ModelsValidation;
+﻿using CDG.Validation.ValidatorTool;
 using DataAccess.Data;
 using DataAccess.UnitOfWork;
+using FluentValidation;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,12 @@ namespace Service.Manage
     public class PersonManage : IPersonManage
     {
         private readonly IUnitOfWork _unitOfwork;
-        public PersonManage(IUnitOfWork unitOfwork)
+        private readonly IValidator<PersonModel> _validator;
+
+        public PersonManage(IUnitOfWork unitOfWork, IValidator<PersonModel> validator)
         {
-            this._unitOfwork = unitOfwork;
+            _unitOfwork = unitOfWork ?? throw new NullReferenceException(nameof(unitOfWork));
+            _validator = validator ?? throw new NullReferenceException(nameof(validator));
         }
 
         public async Task<int> CountAsync()
@@ -51,7 +55,7 @@ namespace Service.Manage
 
            if (user != null) throw new Exception("User already exists");
 
-           if (!PersonValidation.CheckProperties(value)) throw new Exception(PersonValidation.ErrorMessage);
+           ValidatorTool.FluentValidate(_validator, value);
 
            return await _unitOfwork.PersonRepository.InsertAsync(value);
 
@@ -69,7 +73,7 @@ namespace Service.Manage
 
             if (user is null) throw new Exception("User does not exists");
 
-            if (!PersonValidation.CheckProperties(value)) throw new Exception(PersonValidation.ErrorMessage);
+            ValidatorTool.FluentValidate(_validator, value);
 
             return await _unitOfwork.PersonRepository.UpdateAsync(value);
         }

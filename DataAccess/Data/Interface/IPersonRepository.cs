@@ -1,4 +1,4 @@
-﻿using DataAccess.Data.CommonData;
+﻿using DataAccess.Data.Repostiory;
 using Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;

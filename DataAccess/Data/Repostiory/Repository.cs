@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Data.CommonData
+namespace DataAccess.Data.Repostiory
 {
     public abstract class Repository<T> : IRepository<T> where T : class
     {

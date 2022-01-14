@@ -27,7 +27,7 @@ namespace CarDetailingGarage.Controllers
 
         // GET: api/<PersonController>
         [HttpGet("all")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -40,7 +40,7 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-        [HttpGet("{}/{pageSize}")]
+        [HttpGet("MyApp/{pageNumber}/{pageSize}")]
         public async Task<IActionResult> MyAppointments(int pageNumber, int pageSize)
         {
             try

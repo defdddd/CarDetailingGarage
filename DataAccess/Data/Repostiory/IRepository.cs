@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DataAccess.Data.CommonData
+namespace DataAccess.Data.Repostiory
 {
     public interface IRepository<T> where T : class
     {

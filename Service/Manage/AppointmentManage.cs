@@ -1,5 +1,6 @@
-﻿using CDG.Validation.ModelsValidation;
+﻿using CDG.Validation.ValidatorTool;
 using DataAccess.UnitOfWork;
+using FluentValidation;
 using Models;
 using Service.Interfaces;
 using System;
@@ -13,9 +14,12 @@ namespace Service.Manage
     public class AppointmentManage : IAppointmentManage
     {
         private IUnitOfWork _unitOfWork;
-        public AppointmentManage(IUnitOfWork unitOfWork)
+
+        private IValidator<AppointmentModel> _validator;
+        public AppointmentManage(IUnitOfWork unitOfWork, IValidator<AppointmentModel> validator)
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork ?? throw new NullReferenceException(nameof(unitOfWork));
+            _validator = validator ?? throw new NullReferenceException(nameof(validator));
         }
         public async Task<int> CountAsync()
         {
@@ -57,7 +61,7 @@ namespace Service.Manage
 
             if (appointment != null) throw new Exception("Appointment already exists");
 
-            if (!AppointmentValidation.CheckProperties(value)) throw new Exception(AppointmentValidation.ErrorMessage);
+            ValidatorTool.FluentValidate(_validator, value);
 
             return await _unitOfWork.AppointmentRepository.InsertAsync(value);
         }
@@ -73,7 +77,7 @@ namespace Service.Manage
 
             if (appointment is null) throw new Exception("Appointment does not exists");
 
-            if (!AppointmentValidation.CheckProperties(value)) throw new Exception(AppointmentValidation.ErrorMessage);
+            ValidatorTool.FluentValidate(_validator, value);
 
             return await _unitOfWork.AppointmentRepository.UpdateAsync(value);
         }

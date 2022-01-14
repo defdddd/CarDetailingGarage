@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using DataAccess.SqlDataAccess;
 using DataAccess.UnitOfWork;
 
-namespace DependencyInjection
+namespace CDG.DependencyInjection
 {
     public static class RepositoryInjection
     {

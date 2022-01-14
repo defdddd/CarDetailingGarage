@@ -1,4 +1,4 @@
-﻿using DataAccess.Data.CommonData;
+﻿using DataAccess.Data.Repostiory;
 using DataAccess.Data.Interface;
 using DataAccess.SqlDataAccess;
 using Models;
@@ -28,7 +28,7 @@ namespace DataAccess.Data
             await _sqlDataAccess.SaveData<AppointmentModel, dynamic>("InsertAppointment",
                 new 
                    {
-                        UserName = value.FullName,
+                        UserName = value.UserName,
                         Type = value.Type,
                         Date = value.Date,
                         Price = value.Price,

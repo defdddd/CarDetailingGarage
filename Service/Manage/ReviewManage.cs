@@ -1,5 +1,6 @@
-﻿using CDG.Validation.ModelsValidation;
+﻿using CDG.Validation.ValidatorTool;
 using DataAccess.UnitOfWork;
+using FluentValidation;
 using Models;
 using Service.Interfaces;
 using System;
@@ -13,9 +14,12 @@ namespace Service.Manage
     public class ReviewManage : IReviewManage
     {
         private IUnitOfWork _unitOfWork;
-        public ReviewManage(IUnitOfWork unitOfWork)
+        private IValidator<ReviewModel> _validator;
+
+        public ReviewManage(IUnitOfWork unitOfWork, IValidator<ReviewModel> validator)
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork ?? throw new NullReferenceException(nameof(unitOfWork));
+            _validator = validator ?? throw new NullReferenceException(nameof(validator));
         }
         public async Task<int> CountAsync()
         {
@@ -61,7 +65,7 @@ namespace Service.Manage
 
             if (Review != null) throw new Exception("Review already exists");
 
-            if (!ReviewValidation.CheckProperties(value)) throw new Exception(ReviewValidation.ErrorMessage);
+            ValidatorTool.FluentValidate(_validator, value);
 
             return await _unitOfWork.ReviewRepository.InsertAsync(value);
         }
@@ -81,7 +85,7 @@ namespace Service.Manage
 
             if (Review is null) throw new Exception("Review does not exists");
 
-            if (!ReviewValidation.CheckProperties(value)) throw new Exception(ReviewValidation.ErrorMessage);
+            ValidatorTool.FluentValidate(_validator, value);
 
             return await _unitOfWork.ReviewRepository.UpdateAsync(value);
         }

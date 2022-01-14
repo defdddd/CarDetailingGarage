@@ -1,4 +1,4 @@
-﻿using DataAccess.Data.CommonData;
+﻿using DataAccess.Data.Repostiory;
 using Models.Pictures;
 using System;
 using System.Collections.Generic;
