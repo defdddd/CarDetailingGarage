@@ -19,11 +19,9 @@ namespace DataAccess.Data.Repostiory
           await _sqlDataAccess.LoadData<T, dynamic>(GetAll,
                new { pageNumber = pageNumber, pageSize = pageSize });
 
-        public async Task<T> UpdateAsync(T value)
-        {
-            await _sqlDataAccess.SaveData<T, T>(Update, value);
-            return value;
-        }
+        public async Task<T> UpdateAsync(T value) =>
+         await _sqlDataAccess.SaveData<T, T>(Update, value);
+
 
         public async Task DeleteAsync(int id)
         {

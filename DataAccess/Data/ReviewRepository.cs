@@ -28,13 +28,13 @@ namespace DataAccess.Data
         public override async Task<ReviewModel> InsertAsync(ReviewModel value) =>
              await _sqlDataAccess.SaveData<ReviewModel, dynamic>("InsertReview",
                  new
-                 {
-                     UserId = value.UserId,
-                     AppointmentId = value.AppointmentId,
-                     Grade = value.Grade,
-                     Review = value.Review,
-                     IsOke = value.IsOke
-                 }
+                     {
+                         UserId = value.UserId,
+                         AppointmentId = value.AppointmentId,
+                         Grade = value.Grade,
+                         Review = value.Review,
+                         IsOke = value.IsOke
+                     }
                  );
 
         public async Task<ReviewModel> SearchByIdAsync(int id) =>

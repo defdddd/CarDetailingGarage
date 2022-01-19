@@ -34,17 +34,17 @@ namespace Service.Manage
 
         public async Task<IEnumerable<PersonModel>> GetAllAsync(int pageNumber, int pageSize)
         {
-            if (pageNumber < 1 || pageSize < 1) throw new Exception("Invalid data");
+            if (pageNumber < 1 || pageSize < 1) throw new ValidationException("Invalid data");
 
             return await _unitOfwork.PersonRepository.GetAllAsync(pageNumber, pageSize) ??
-                throw new Exception("This table is empty");
+                throw new ValidationException("This table is empty");
         }
 
         public async Task<IEnumerable<PersonModel>> GetAllAsync()
         {
 
             var pageSize = await _unitOfwork.PersonRepository.CountAsync() + 1;
-            if(pageSize == 1) throw new Exception("This table is empty");
+            if(pageSize == 1) throw new ValidationException("This table is empty");
 
             return await _unitOfwork.PersonRepository.GetAllAsync(1, pageSize);
         }
@@ -53,27 +53,26 @@ namespace Service.Manage
         {
            var user = await _unitOfwork.PersonRepository.SearchByUserNameAsync(value.UserName);
 
-           if (user != null) throw new Exception("User already exists");
+           if (user != null) throw new ValidationException("User already exists");
 
-           ValidatorTool.FluentValidate(_validator, value);
+            await ValidatorTool.FluentValidate(_validator, value);
 
-           return await _unitOfwork.PersonRepository.InsertAsync(value);
+            return await _unitOfwork.PersonRepository.InsertAsync(value);
 
         }
 
         public async Task<PersonModel> SearchByUserNameAsync(string userName)
         {
             return await _unitOfwork.PersonRepository.SearchByUserNameAsync(userName) ?? 
-                throw new Exception("User does not exists");
+                throw new ValidationException("User does not exists");
         }
 
         public async Task<PersonModel> UpdateAsync(PersonModel value)
         {
-            var user = await _unitOfwork.PersonRepository.SearchByUserNameAsync(value.UserName);
+            _ = await _unitOfwork.PersonRepository.SearchByUserNameAsync(value.UserName)
+                ?? throw new ValidationException("User does not exists");
 
-            if (user is null) throw new Exception("User does not exists");
-
-            ValidatorTool.FluentValidate(_validator, value);
+            await ValidatorTool.FluentValidate(_validator, value);
 
             return await _unitOfwork.PersonRepository.UpdateAsync(value);
         }

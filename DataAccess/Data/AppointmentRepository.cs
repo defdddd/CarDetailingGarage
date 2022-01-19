@@ -39,6 +39,8 @@ namespace DataAccess.Data
         public async Task<AppointmentModel> SearchByIdAsync(int appointmentId) =>
             await _sqlDataAccess.SaveData<AppointmentModel, dynamic>("SearchAppointmentById", new { Id = appointmentId });
 
-
+        public async Task<Boolean> CheckDateAvailability(DateTime date) => 
+            null == await _sqlDataAccess.SaveData<AppointmentModel, dynamic>("CheckDateAvailability", new { Date = date });
+        
     }
 }

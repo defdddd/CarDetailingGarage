@@ -35,14 +35,22 @@ namespace DataAccess.Data
                     }
                 );
 
-        public Task<IEnumerable<ReviewerPictureModel>> GetReviewPicturesAsync(int reviewId, int appointmentId)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<IEnumerable<ReviewerPictureModel>> GetReviewPicturesAsync(int reviewId, int appointmentId) =>
+            await _sqlDataAccess.LoadData<ReviewerPictureModel, dynamic>("GetReviewPictures",
+                new
+                    {
+                        ReviewId = reviewId,
+                        AppointmentId = appointmentId                
+                    }
+                );
 
-        public Task<ReviewerPictureModel> SearchByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+
+        public async Task<ReviewerPictureModel> SearchByIdAsync(int id) =>
+            await _sqlDataAccess.SaveData<ReviewerPictureModel, dynamic>("SearchReviewPictureById",
+                new
+                    {
+                       Id = id
+                    }
+                );
     }
 }

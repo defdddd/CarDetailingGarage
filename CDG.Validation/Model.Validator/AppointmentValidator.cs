@@ -24,7 +24,7 @@ namespace CDG.Validation.Model.Validator
 
             RuleFor(x => x.Date)
                 .Cascade(CascadeMode.Stop)
-                .Must(MustBeAValidDate).WithMessage("The selecte date does not meet the requirements.");
+                .Must(MustBeAValidDate).WithMessage("The selected date does not meet the requirements.");
 
             RuleFor(x => x.Price)
                 .Cascade(CascadeMode.Stop)

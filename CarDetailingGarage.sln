@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31729.503
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarDetailingGarage", "CarDetailingGarage\CarDetailingGarage.csproj", "{C9F3E391-0AEB-4AF4-B9EC-AE44EB4ABABD}"
 EndProject
@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CDG.DependencyInjection", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CDG.DataAccess", "DataAccess\CDG.DataAccess.csproj", "{54498B90-D6E9-4B33-9229-070EC52352A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDG.Validation", "CDG.Validation\CDG.Validation.csproj", "{8CEE481B-BC21-4B04-946D-78B3505CD840}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CDG.Validation", "CDG.Validation\CDG.Validation.csproj", "{8CEE481B-BC21-4B04-946D-78B3505CD840}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -37,11 +37,11 @@ namespace DataAccess.Data
         public async Task<IEnumerable<GaragePictureModel>> GetAppointmentPicturesAsync(int appointmentId, int pageNumber, int pageSize) =>
             await _sqlDataAccess.LoadData<GaragePictureModel, dynamic>("GetAppointmentPictures",
                 new
-                {
-                    AppointmentId = appointmentId,
-                    pageNumber = pageNumber,
-                    pageSize = pageSize
-                }
+                    {
+                        appointmentId = appointmentId,
+                        pageNumber = pageNumber,
+                        pageSize = pageSize
+                    }
                 );
 
         public async Task<GaragePictureModel> SearchByIdAsync(int id) =>

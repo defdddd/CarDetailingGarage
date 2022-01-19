@@ -13,8 +13,8 @@ namespace Service.Manage
 {
     public class ReviewManage : IReviewManage
     {
-        private IUnitOfWork _unitOfWork;
-        private IValidator<ReviewModel> _validator;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidator<ReviewModel> _validator;
 
         public ReviewManage(IUnitOfWork unitOfWork, IValidator<ReviewModel> validator)
         {
@@ -28,64 +28,64 @@ namespace Service.Manage
 
         public async Task DeleteAsync(int id)
         {
+            _ = await _unitOfWork.ReviewRepository.SearchByIdAsync(id) 
+                ?? throw new ValidationException("Review does not exists");
+
             await _unitOfWork.ReviewRepository.DeleteAsync(id);
         }
 
         public async Task<IEnumerable<ReviewModel>> GetAllAsync(int pageNumber, int pageSize)
         {
-            if (pageNumber < 1 || pageSize < 1) throw new Exception("Invalid data");
+            if (pageNumber < 1 || pageSize < 1) throw new ValidationException("Invalid data");
 
             return await _unitOfWork.ReviewRepository.GetAllAsync(pageNumber, pageSize) ??
-                throw new Exception("This table is empty");
+                throw new ValidationException("This table is empty");
         }
 
         public async Task<IEnumerable<ReviewModel>> GetAllAsync()
         {
             var pageSize = await _unitOfWork.ReviewRepository.CountAsync() + 1;
-            if (pageSize == 1) throw new Exception("This table is empty");
+            if (pageSize == 1) throw new ValidationException("This table is empty");
 
             return await _unitOfWork.ReviewRepository.GetAllAsync(1, pageSize);
         }
 
         public async Task<IEnumerable<ReviewModel>> GetMyReviewsAsync(int personId, int pageNumber, int pageSize)
         {
-            if (pageNumber < 1 || pageSize < 1) throw new Exception("Invalid data");
+            if (pageNumber < 1 || pageSize < 1) throw new ValidationException("Invalid data");
 
             return await _unitOfWork.ReviewRepository.GetMyReviewsAsync(personId, pageNumber, pageSize) ??
-                throw new Exception("This table is empty");
+                throw new ValidationException("This table is empty");
         }
 
         public async Task<ReviewModel> InsertAsync(ReviewModel value)
         {
-            var Review = await _unitOfWork.ReviewRepository.SearchByIdAsync(value.Id);
+            _ = await _unitOfWork.ReviewRepository.SearchByIdAsync(value.Id)
+                ?? throw new ValidationException("Review already exists");
 
-            var appointment = await _unitOfWork.AppointmentRepository.SearchByIdAsync(value.AppointmentId);
+            _ = await _unitOfWork.AppointmentRepository.SearchByIdAsync(value.AppointmentId)
+                ?? throw new ValidationException("The selected appointment does not exits");
 
-            if (appointment == null) throw new Exception("The selected appointment does not exits");
-
-            if (Review != null) throw new Exception("Review already exists");
-
-            ValidatorTool.FluentValidate(_validator, value);
+            await ValidatorTool.FluentValidate(_validator, value);
 
             return await _unitOfWork.ReviewRepository.InsertAsync(value);
         }
 
         public async Task<ReviewModel> SearchByIdAsync(int id)
         {
-            return await _unitOfWork.ReviewRepository.SearchByIdAsync(id) ?? throw new Exception("Review does not exists");
+            return await _unitOfWork.ReviewRepository.SearchByIdAsync(id) 
+                ?? throw new ValidationException("Review does not exists");
         }
 
         public async Task<ReviewModel> UpdateAsync(ReviewModel value)
         {
-            var Review = await _unitOfWork.ReviewRepository.SearchByIdAsync(value.Id);
+            _ = await _unitOfWork.ReviewRepository.SearchByIdAsync(value.Id)
+                ?? throw new ValidationException("Review does not exists");
 
-            var appointment = await _unitOfWork.AppointmentRepository.SearchByIdAsync(value.AppointmentId);
+            _ = await _unitOfWork.AppointmentRepository.SearchByIdAsync(value.AppointmentId)
+                ?? throw new ValidationException("The selected appointment does not exits");
 
-            if (appointment == null) throw new Exception("The selected appointment does not exits");
-
-            if (Review is null) throw new Exception("Review does not exists");
-
-            ValidatorTool.FluentValidate(_validator, value);
+            await ValidatorTool.FluentValidate(_validator, value);
 
             return await _unitOfWork.ReviewRepository.UpdateAsync(value);
         }

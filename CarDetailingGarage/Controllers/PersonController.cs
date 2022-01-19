@@ -11,7 +11,7 @@ namespace CarDetailingGarage.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize(Roles ="Admin,User")]
+    [Authorize(Roles ="Admin")]
     public class PersonController : ControllerBase
     {
         private readonly IPersonManage _personManage;

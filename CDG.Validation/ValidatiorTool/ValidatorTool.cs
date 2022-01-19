@@ -10,9 +10,9 @@ namespace CDG.Validation.ValidatorTool
 {
     public static class ValidatorTool
     {
-        public static void FluentValidate<T>(IValidator<T> validator, T entity)
+        public static async Task FluentValidate<T>(IValidator<T> validator, T entity)
         {
-            var result = validator.Validate(entity);
+            var result = await validator.ValidateAsync(entity);
 
             if (result.Errors.Count > 0)
             {

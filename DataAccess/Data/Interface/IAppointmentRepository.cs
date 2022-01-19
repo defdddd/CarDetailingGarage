@@ -12,5 +12,6 @@ namespace DataAccess.Data.Interface
     {
         Task<IEnumerable<AppointmentModel>> GetMyAppointmentsAsync(int personId, int pageNumber, int pageSize);
         Task<AppointmentModel> SearchByIdAsync(int appointmentId);
+        Task<Boolean> CheckDateAvailability(DateTime date);
     }
 }

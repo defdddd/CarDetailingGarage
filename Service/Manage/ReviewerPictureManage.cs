@@ -13,8 +13,8 @@ namespace Service.Manage
 {
     public class ReviewerPictureManage : IReviewerPictureManage
     {
-        private IUnitOfWork _unitOfWork;
-        private IValidator<ReviewerPictureModel> _validator;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidator<ReviewerPictureModel> _validator;
 
         public ReviewerPictureManage(IUnitOfWork unitOfWork, IValidator<ReviewerPictureModel> validator)
         {
@@ -33,16 +33,16 @@ namespace Service.Manage
 
         public async Task<IEnumerable<ReviewerPictureModel>> GetAllAsync(int pageNumber, int pageSize)
         {
-            if (pageNumber < 1 || pageSize < 1) throw new Exception("Invalid data");
+            if (pageNumber < 1 || pageSize < 1) throw new ValidationException("Invalid data");
 
             return await _unitOfWork.ReviewerPictureRepository.GetAllAsync(pageNumber, pageSize) ??
-                throw new Exception("This table is empty");
+                throw new ValidationException("This table is empty");
         }
 
         public async Task<IEnumerable<ReviewerPictureModel>> GetAllAsync()
         {
             var pageSize = await _unitOfWork.ReviewerPictureRepository.CountAsync() + 1;
-            if (pageSize == 1) throw new Exception("This table is empty");
+            if (pageSize == 1) throw new ValidationException("This table is empty");
 
             return await _unitOfWork.ReviewerPictureRepository.GetAllAsync(1, pageSize);
         }
@@ -54,33 +54,34 @@ namespace Service.Manage
 
         public async Task<int> GetUserId(ReviewerPictureModel reviewerPictureModel)
         {
-            var appointment = await _unitOfWork.AppointmentRepository.SearchByIdAsync(reviewerPictureModel.AppointmentId) ?? throw new Exception("Appointment does not exists");
+            var appointment = await _unitOfWork.AppointmentRepository.SearchByIdAsync(reviewerPictureModel.AppointmentId)
+                ?? throw new ValidationException("Appointment does not exists");
+
             return appointment.PersonId;
         }
 
         public async Task<ReviewerPictureModel> InsertAsync(ReviewerPictureModel value)
         {
-            var appointment = await _unitOfWork.ReviewerPictureRepository.SearchByIdAsync(value.Id);
+            _ = await _unitOfWork.ReviewerPictureRepository.SearchByIdAsync(value.Id)
+                ?? throw new ValidationException("Appointment already exists");
 
-            if (appointment != null) throw new Exception("Appointment already exists");
-
-            ValidatorTool.FluentValidate(_validator, value);
+            await ValidatorTool.FluentValidate(_validator, value);
 
             return await _unitOfWork.ReviewerPictureRepository.InsertAsync(value);
         }
 
         public async Task<ReviewerPictureModel> SearchByIdAsync(int id)
         {
-            return await _unitOfWork.ReviewerPictureRepository.SearchByIdAsync(id) ?? throw new Exception("Appointment does not exists");
+            return await _unitOfWork.ReviewerPictureRepository.SearchByIdAsync(id) 
+                ?? throw new ValidationException("Appointment does not exists");
         }
 
         public async Task<ReviewerPictureModel> UpdateAsync(ReviewerPictureModel value)
         {
-            var appointment = await _unitOfWork.ReviewerPictureRepository.SearchByIdAsync(value.Id);
+            _ = await _unitOfWork.ReviewerPictureRepository.SearchByIdAsync(value.Id)
+                ?? throw new ValidationException("Appointment does not exists");
 
-            if (appointment is null) throw new Exception("Appointment does not exists");
-
-            ValidatorTool.FluentValidate(_validator, value);
+            await ValidatorTool.FluentValidate(_validator, value);
 
             return await _unitOfWork.ReviewerPictureRepository.UpdateAsync(value);
         }

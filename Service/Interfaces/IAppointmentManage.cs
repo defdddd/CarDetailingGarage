@@ -11,5 +11,7 @@ namespace Service.Interfaces
     {
         Task<AppointmentModel> SearchByIdAsync(int id);
         Task<IEnumerable<AppointmentModel>> GetMyAppointmentsAsync(int personId, int pageNumber, int pageSize);
+        Task<Boolean> CheckDateAvailability(DateTime date);
+
     }
 }
