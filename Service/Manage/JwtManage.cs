@@ -69,5 +69,12 @@ namespace Service.Manage
 
             return output;
         }
+
+        public async Task<bool> CheckEmailAsync(string email)
+        {
+            if (!await _unitOfwork.PersonRepository.CheckEmailAsync(email))
+                throw new Exception("Email does not exits");
+            return true;
+        }
     }
 }

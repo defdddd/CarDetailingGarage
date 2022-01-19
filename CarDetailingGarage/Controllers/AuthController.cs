@@ -35,6 +35,20 @@ namespace CarDetailingGarage
                 return BadRequest();
             }
         }
-     
+
+        [HttpGet("{email}")]
+        public async Task<IActionResult> CheckEmail(string email)
+        {
+            try
+            {
+                return Ok(await _jwtManage.CheckEmailAsync(email));
+            }
+            catch (Exception e1)
+            {
+
+                return BadRequest(e1.Message);
+            }
+        }
+
     }
 }

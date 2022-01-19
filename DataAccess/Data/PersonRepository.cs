@@ -37,5 +37,8 @@ namespace DataAccess.Data
         public async Task<PersonModel> SearchByUserNameAsync(string userName) =>
            await _sqlDataAccess.SaveData<PersonModel, dynamic>("SearchPersonUserName", new { UserName = userName });
 
+        public  async Task<bool> CheckEmailAsync(string email) =>
+            null != await _sqlDataAccess.SaveData<AppointmentModel, dynamic>("CheckEmailAsync", new { email = email });
+
     }
 }

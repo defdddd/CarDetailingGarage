@@ -7,5 +7,7 @@ namespace Service.Manage
     {
         Task<dynamic> GenerateToken(AuthModel authModel);
         Task<bool> IsValidUserNameAndPassowrd(AuthModel authModel);
+        Task<bool> CheckEmailAsync(string email);
+
     }
 }
