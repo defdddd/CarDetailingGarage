@@ -16,10 +16,10 @@ namespace CDG.DependencyInjection
     {
         public static IServiceCollection ServiceConfiguration(this IServiceCollection services, IConfiguration Config)
         {
-            services.AddSingleton<IJwtManage>
+            services.AddSingleton<IAuthManage>
               (
                 provider => 
-                     new JwtManage(provider.GetService<IUnitOfWork>(), Config.GetConnectionString("MySecretKey"))
+                     new AuthManage(provider.GetService<IUnitOfWork>(), Config.GetConnectionString("MySecretKey"))
               );
 
             services.AddSingleton<IPersonManage, PersonManage>();

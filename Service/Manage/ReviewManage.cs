@@ -60,8 +60,8 @@ namespace Service.Manage
 
         public async Task<ReviewModel> InsertAsync(ReviewModel value)
         {
-            _ = await _unitOfWork.ReviewRepository.SearchByIdAsync(value.Id)
-                ?? throw new ValidationException("Review already exists");
+            if (null != await _unitOfWork.ReviewRepository.SearchByIdAsync(value.Id))
+                 throw new ValidationException("Review already exists");
 
             _ = await _unitOfWork.AppointmentRepository.SearchByIdAsync(value.AppointmentId)
                 ?? throw new ValidationException("The selected appointment does not exits");

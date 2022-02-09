@@ -58,8 +58,8 @@ namespace Service.Manage
 
         public async Task<GaragePictureModel> InsertAsync(GaragePictureModel value)
         {
-            _ = await _unitOfWork.GaragePictureRepository.SearchByIdAsync(value.Id)
-                ?? throw new ValidationException("GaragePicture already exists");
+            if (null != await _unitOfWork.GaragePictureRepository.SearchByIdAsync(value.Id))
+                throw new ValidationException("GaragePicture already exists");
 
             await ValidatorTool.FluentValidate(_validator, value);
 

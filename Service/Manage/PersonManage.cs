@@ -51,9 +51,8 @@ namespace Service.Manage
 
         public async Task<PersonModel> InsertAsync(PersonModel value)
         {
-           var user = await _unitOfwork.PersonRepository.SearchByUserNameAsync(value.UserName);
-
-           if (user != null) throw new ValidationException("User already exists");
+            if (await _unitOfwork.PersonRepository.CheckUserNameAsync(value.UserName))
+                throw new ValidationException("User already exists");
 
             await ValidatorTool.FluentValidate(_validator, value);
 
@@ -69,8 +68,8 @@ namespace Service.Manage
 
         public async Task<PersonModel> UpdateAsync(PersonModel value)
         {
-            _ = await _unitOfwork.PersonRepository.SearchByUserNameAsync(value.UserName)
-                ?? throw new ValidationException("User does not exists");
+            if (!await _unitOfwork.PersonRepository.CheckUserNameAsync(value.UserName))
+                throw new ValidationException("User does not exists");
 
             await ValidatorTool.FluentValidate(_validator, value);
 

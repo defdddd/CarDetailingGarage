@@ -44,7 +44,7 @@ namespace CDG.Validation.Model.Validator
 
         private Boolean MustBeAValidPassowrd(string passWord)
           {
-            char[] special = { '@', '#', '$', '%', '^', '&', '+', '=' }; 
+            char[] special = { '@', '#', '$', '%', '^', '&', '+', '=','-' }; 
 
             if (!passWord.Any(char.IsUpper)) return false;
 
@@ -59,7 +59,7 @@ namespace CDG.Validation.Model.Validator
 
         private Boolean MustBeAValidName(string name)
         {
-            char[] special = { '@', '#', '$', '%', '^', '&', '+', '=' };
+            char[] special = { '@', '#', '$', '%', '^', '&', '+', '=', '-' };
 
             if (name.Any(char.IsDigit)) return false;
             if (name.IndexOfAny(special) >= 0) return false;

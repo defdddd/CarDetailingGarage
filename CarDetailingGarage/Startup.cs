@@ -73,7 +73,10 @@ namespace CarDetailingGarage
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarDetailingGarage v1"));
             }
-
+            app.UseCors(x => x
+            .WithOrigins("http://localhost:53135","http://localhost:4200")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
             app.UseHttpsRedirection();
 
             app.UseRouting();

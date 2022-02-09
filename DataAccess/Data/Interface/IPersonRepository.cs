@@ -9,6 +9,8 @@ namespace DataAccess.Data.Interface
     public interface IPersonRepository : IRepository<PersonModel>
     {
         Task<PersonModel> SearchByUserNameAsync(string userName);
-        Task<Boolean> CheckEmailAsync(string email);
+        Task<bool> CheckEmailAsync(string email);
+        Task<bool> CheckUserNameAsync(string userName);
+
     }
 }

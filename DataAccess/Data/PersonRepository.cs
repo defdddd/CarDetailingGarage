@@ -30,7 +30,7 @@ namespace DataAccess.Data
                     Password = value.Password,
                     Name = value.Name,
                     Email = value.Email,
-                    Phone = value.Email,
+                    Phone = value.Phone,
                     IsAdmin = value.IsAdmin
                 });  
 
@@ -38,7 +38,9 @@ namespace DataAccess.Data
            await _sqlDataAccess.SaveData<PersonModel, dynamic>("SearchPersonUserName", new { UserName = userName });
 
         public  async Task<bool> CheckEmailAsync(string email) =>
-            null != await _sqlDataAccess.SaveData<AppointmentModel, dynamic>("CheckEmailAsync", new { email = email });
+            null != await _sqlDataAccess.SaveData<PersonModel, dynamic>("CheckEmailAsync", new { email = email });
 
+        public async Task<bool> CheckUserNameAsync(string userName) =>
+            null != await _sqlDataAccess.SaveData<PersonModel, dynamic>("CheckUserNameAsync", new { userName = userName });
     }
 }

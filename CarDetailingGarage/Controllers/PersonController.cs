@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Service.Manage;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,7 +12,7 @@ namespace CarDetailingGarage.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles ="Admin,User")]
     public class PersonController : ControllerBase
     {
         private readonly IPersonManage _personManage;
@@ -22,6 +23,8 @@ namespace CarDetailingGarage.Controllers
         }
         // GET: api/<PersonController>
         [HttpGet("all")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> GetAll()
         {
             try
@@ -37,6 +40,8 @@ namespace CarDetailingGarage.Controllers
 
         // GET api/<PersonController>/5
         [HttpGet("{pageNumber}/{pageSize}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> GetAll(int pageNumber,int pageSize)
         {
             try
@@ -51,6 +56,8 @@ namespace CarDetailingGarage.Controllers
 
         // GET api/<PersonController>/5
         [HttpGet("count")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> GetSizeOf()
         {
             try
@@ -68,7 +75,9 @@ namespace CarDetailingGarage.Controllers
         {
             try
             {
-                return Ok(await _personManage.SearchByUserNameAsync(userName));
+                var person = await _personManage.SearchByUserNameAsync(userName);
+                CheckRole(person);
+                return Ok(person);
             }
             catch (Exception e)
             {
@@ -77,7 +86,9 @@ namespace CarDetailingGarage.Controllers
         }
 
             // POST api/<PersonController>
-            [HttpPost("insert")]
+        [HttpPost("insert")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Insert([FromBody] PersonModel person)
         {
             try
@@ -95,6 +106,7 @@ namespace CarDetailingGarage.Controllers
         {
             try
             {
+                CheckRole(person);
                 return Ok(await _personManage.UpdateAsync(person));
             }
             catch (Exception e)
@@ -106,6 +118,8 @@ namespace CarDetailingGarage.Controllers
 
         // DELETE api/<PersonController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -118,5 +132,17 @@ namespace CarDetailingGarage.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        private void CheckRole(PersonModel person)
+        {
+            var userId = int.Parse(User.FindFirst("Identifier")?.Value);
+
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (!(role == "Admin" || person.Id == userId))
+                throw new Exception("You don t have access to modify, view or insert this value");
+
+        }
+
     }
 }

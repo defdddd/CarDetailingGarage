@@ -62,8 +62,8 @@ namespace Service.Manage
 
         public async Task<ReviewerPictureModel> InsertAsync(ReviewerPictureModel value)
         {
-            _ = await _unitOfWork.ReviewerPictureRepository.SearchByIdAsync(value.Id)
-                ?? throw new ValidationException("Appointment already exists");
+            if(null != await _unitOfWork.ReviewerPictureRepository.SearchByIdAsync(value.Id))
+                 throw new ValidationException("Appointment already exists");
 
             await ValidatorTool.FluentValidate(_validator, value);
 

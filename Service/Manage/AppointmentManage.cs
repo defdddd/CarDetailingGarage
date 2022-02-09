@@ -28,7 +28,6 @@ namespace Service.Manage
         public async Task<int> CountAsync() =>
             await _unitOfWork.AppointmentRepository.CountAsync();
         
-
         public async Task DeleteAsync(int id)
         {
             _ = await _unitOfWork.AppointmentRepository.SearchByIdAsync(id) 
@@ -62,8 +61,8 @@ namespace Service.Manage
 
         public async Task<AppointmentModel> InsertAsync(AppointmentModel value)
         {
-            _ = await _unitOfWork.AppointmentRepository.SearchByIdAsync(value.Id) 
-                ?? throw new ValidationException("Appointment already exists");
+            if (null != await _unitOfWork.AppointmentRepository.SearchByIdAsync(value.Id))
+                throw new ValidationException("Appointment already exists");
 
             if (!await _unitOfWork.AppointmentRepository.CheckDateAvailability(value.Date))
                 throw new ValidationException("Invalid date");
