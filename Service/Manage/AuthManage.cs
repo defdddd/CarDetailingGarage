@@ -44,7 +44,6 @@ namespace Service.Manage
 
             var claims = new List<Claim>
             {
-                new Claim("Username",user.UserName),
                 new Claim("Identifier",user.Id+""),
                 new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
                 new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(7)).ToUnixTimeSeconds().ToString())
@@ -70,7 +69,7 @@ namespace Service.Manage
             var output = new
             {
                 Access_Token = new JwtSecurityTokenHandler().WriteToken(token),
-                UserName = user.UserName
+                UserName = user.Name
             };
 
             return output;

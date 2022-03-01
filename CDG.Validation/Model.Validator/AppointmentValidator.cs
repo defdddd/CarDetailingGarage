@@ -35,10 +35,7 @@ namespace CDG.Validation.Model.Validator
                 .Cascade(CascadeMode.Stop)
                 .GreaterThan(0);
 
-            RuleFor(x => x.IsDone)
-                .Cascade(CascadeMode.Stop)
-                .Must((bool isOke) => !isOke)
-                .WithMessage("Appointment done, you can't edit or insert");
+           
         }
         private Boolean MustBeAValidName(string name)
         {

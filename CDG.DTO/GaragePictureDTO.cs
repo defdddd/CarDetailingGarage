@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models.Pictures
+namespace CDG.DTO
 {
-    public class GaragePictureModel
+    public class GaragePictureDTO
     {
         public int Id { get; set; }
         public int AppointmentId { get; set; }
         public string FileName { get; set; }
         public string Image { get; set; }
-
     }
 }

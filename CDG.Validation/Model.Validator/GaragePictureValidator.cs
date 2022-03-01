@@ -20,7 +20,7 @@ namespace CDG.Validation.Model.Validator
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty();
 
-            RuleFor(x => x.ImagePath)
+            RuleFor(x => x.Image)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty();
         }

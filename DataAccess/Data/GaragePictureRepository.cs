@@ -30,7 +30,7 @@ namespace DataAccess.Data
                     {
                         AppointmentId = value.AppointmentId,
                         FileName = value.FileName,
-                        ImagePath = value.ImagePath
+                        Image = value.Image
                     }
                 );
 
