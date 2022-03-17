@@ -84,7 +84,6 @@ namespace CarDetailingGarage.Controllers
 
         // GET api/<PersonController>/5
         [HttpGet("count")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetSizeOf()
         {
             try

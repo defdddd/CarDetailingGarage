@@ -1,4 +1,6 @@
-﻿using DataAccess.Data;
+﻿using CDG.DataAccess.Data;
+using CDG.DataAccess.Data.Interface;
+using DataAccess.Data;
 using DataAccess.Data.Interface;
 using DataAccess.SqlDataAccess;
 using System;
@@ -17,6 +19,7 @@ namespace DataAccess.UnitOfWork
         public IPersonRepository PersonRepository => new PersonRepository(_sqlDataAccess);
         public IReviewRepository ReviewRepository => new ReviewRepository(_sqlDataAccess);
         public IReviewerPictureRepository ReviewerPictureRepository => new ReviewerPictureRepository(_sqlDataAccess);
+        public IProfilePictureRepository ProfilePictureRepository => new ProfilePictureRepository(_sqlDataAccess);
         public UnitOfWork(ISqlDataAccess sqlDataAccess)
         {
             _sqlDataAccess = sqlDataAccess;

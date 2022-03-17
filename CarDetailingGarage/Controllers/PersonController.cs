@@ -70,13 +70,13 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-        [HttpGet("{userName}")]
+        [HttpGet("username/{userName}")]
         public async Task<IActionResult> Search(string userName)
         {
             try
             {
                 var person = await _personManage.SearchByUserNameAsync(userName);
-                CheckRole(person);
+                await CheckRole(person);
                 return Ok(person);
             }
             catch (Exception e)
@@ -85,7 +85,23 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-            // POST api/<PersonController>
+        [HttpGet("id/{id}")]
+        public async Task<IActionResult> SearchId(int id)
+        {
+            try
+            {
+                var person = await _personManage.SearchByIdAsync(id);
+                await CheckRole(person);
+                return Ok(person);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        // POST api/<PersonController>
         [HttpPost("insert")]
         [Authorize(Roles = "Admin")]
 
@@ -106,7 +122,8 @@ namespace CarDetailingGarage.Controllers
         {
             try
             {
-                CheckRole(person);
+                await CheckRole(person);
+
                 return Ok(await _personManage.UpdateAsync(person));
             }
             catch (Exception e)
@@ -133,14 +150,17 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-        private void CheckRole(PersonModel person)
+        private async Task CheckRole(PersonModel person)
         {
             var userId = int.Parse(User.FindFirst("Identifier")?.Value);
-
+            var user = await _personManage.SearchByIdAsync(person.Id);
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
+            if (userId.Equals(person.Id) && !user.IsAdmin.Equals(person.IsAdmin))
+                throw new Exception("You can't edit your role, contact the owner for this task");
+
             if (!(role == "Admin" || person.Id == userId))
-                throw new Exception("You don t have access to modify, view or insert this value");
+                throw new Exception("You don't have access to modify, view or insert this value");
 
         }
 

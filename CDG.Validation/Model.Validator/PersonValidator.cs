@@ -40,6 +40,11 @@ namespace CDG.Validation.Model.Validator
                 .NotEmpty()
                 .Length(6, 12)
                 .Must(MustBeAValidePhoneNumber).WithMessage("Invalid phone number");
+
+            RuleFor(x => x.Gender)
+              .Cascade(CascadeMode.Stop)
+              .NotEmpty()
+              .Must(MustBeaValidType).WithMessage("Invalid gender");
         }
 
         private Boolean MustBeAValidPassowrd(string passWord)
@@ -72,6 +77,12 @@ namespace CDG.Validation.Model.Validator
             if(phone.Any(char.IsLetter)) return false;
             return true;
         }
+        private Boolean MustBeaValidType(string type)
+        {
+            if (type.ToLower() == "male" || type.ToLower() == "female" )
+                return true;
+            return false;
         }
     }
+}
 

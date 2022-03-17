@@ -48,16 +48,16 @@ namespace CDG.Validation.Model.Validator
         }
         private Boolean MustBeaValidType(string type)
         {
-            if (type == "Full" ||
-                type == "Interior" ||
-                type == "Exterior") 
+            if (type.ToLower() == "full" ||
+                type.ToLower() == "interior" ||
+                type.ToLower() == "exterior") 
                 return true;
             return false;
         }
 
-        private Boolean MustBeAValidDate(DateTime date)
+        private Boolean MustBeAValidDate(string date)
         {
-            if(date < DateTime.Now) return false;
+            if(DateTime.Parse(date) < DateTime.Now) return false;
 
             return !date.Equals(default(DateTime));
         }

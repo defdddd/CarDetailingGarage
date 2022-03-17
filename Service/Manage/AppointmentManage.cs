@@ -22,7 +22,7 @@ namespace Service.Manage
             _validator = validator ?? throw new NullReferenceException(nameof(validator));
         }
 
-        public async Task<bool> CheckDateAvailability(DateTime date) =>
+        public async Task<bool> CheckDateAvailability(string date) =>
             await _unitOfWork.AppointmentRepository.CheckDateAvailability(date);
 
         public async Task<int> CountAsync() =>
@@ -49,6 +49,11 @@ namespace Service.Manage
             if (pageSize == 1) throw new ValidationException("This table is empty");
 
             return await _unitOfWork.AppointmentRepository.GetAllAsync(1, pageSize);
+        }
+
+        public async Task<IEnumerable<string>> GetCurrentDates()
+        {
+            return (await _unitOfWork.AppointmentRepository.GetCurrentAppointments()).Select(x => x.Date);
         }
 
         public async Task<IEnumerable<AppointmentModel>> GetMyAppointmentsAsync(int personId, int pageNumber, int pageSize)

@@ -25,7 +25,6 @@ namespace CarDetailingGarage.Controllers
 
         // GET: api/<PersonController>
         [HttpGet("all")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAll()
         {
             try

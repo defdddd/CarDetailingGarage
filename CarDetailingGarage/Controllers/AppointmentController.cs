@@ -41,7 +41,7 @@ namespace CarDetailingGarage.Controllers
         }
 
         [HttpGet("dateVal/{date}")]
-        public async Task<IActionResult> CheckDate(DateTime date)
+        public async Task<IActionResult> CheckDate(string date)
         {
             try
             {
@@ -53,6 +53,18 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
+        [HttpGet("dates")]
+        public async Task<IActionResult> GetDates()
+        {
+            try
+            {
+                return Ok(await _appointmentManage.GetCurrentDates());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpGet("MyApp/{pageNumber}/{pageSize}")]
         public async Task<IActionResult> MyAppointments(int pageNumber, int pageSize)
@@ -100,7 +112,6 @@ namespace CarDetailingGarage.Controllers
 
         // GET api/<PersonController>/5
         [HttpGet("count")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetSizeOf()
         {
             try

@@ -60,6 +60,12 @@ namespace Service.Manage
 
         }
 
+        public async Task<PersonModel> SearchByIdAsync(int id)
+        {
+            return await _unitOfwork.PersonRepository.SearchByIdAsync(id) ??
+                 throw new ValidationException("User does not exists");
+        }
+
         public async Task<PersonModel> SearchByUserNameAsync(string userName)
         {
             return await _unitOfwork.PersonRepository.SearchByUserNameAsync(userName) ?? 

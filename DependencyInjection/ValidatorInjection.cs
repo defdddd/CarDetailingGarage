@@ -1,4 +1,5 @@
-﻿using CDG.Validation.Model.Validator;
+﻿using CDG.Models;
+using CDG.Validation.Model.Validator;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Models;
@@ -20,6 +21,8 @@ namespace CDG.DependencyInjection
             services.AddSingleton<IValidator<ReviewModel>, ReviewValidator>();
             services.AddSingleton<IValidator<GaragePictureModel>, GaragePictureValidator>();
             services.AddSingleton<IValidator<ReviewerPictureModel>, ReviewerPictureValidator>();
+            services.AddSingleton<IValidator<ProfilePictureModel>, ProfilePictureValidator>();
+
 
             return services;
         }

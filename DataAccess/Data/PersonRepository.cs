@@ -29,6 +29,7 @@ namespace DataAccess.Data
                     UserName = value.UserName,
                     Password = value.Password,
                     Name = value.Name,
+                    Gender = value.Gender,
                     Email = value.Email,
                     Phone = value.Phone,
                     IsAdmin = value.IsAdmin
@@ -42,5 +43,8 @@ namespace DataAccess.Data
 
         public async Task<bool> CheckUserNameAsync(string userName) =>
             null != await _sqlDataAccess.SaveData<PersonModel, dynamic>("CheckUserNameAsync", new { userName = userName });
+
+        public async Task<PersonModel> SearchByIdAsync(int id) =>
+           await _sqlDataAccess.SaveData<PersonModel, dynamic>("SearchPersonId", new { id = id });
     }
 }

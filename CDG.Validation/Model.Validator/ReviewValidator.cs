@@ -30,10 +30,6 @@ namespace CDG.Validation.Model.Validator
                 .NotEmpty()
                 .Length(0, 255);
 
-            RuleFor(x => x.IsOke)
-                .Cascade(CascadeMode.Stop)
-                .Must((bool isOke) => !isOke)
-                .WithMessage("Your review can t be edited anymore");
         }
     }
 }

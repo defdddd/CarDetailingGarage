@@ -1,4 +1,6 @@
 ﻿
+using CDG.Service.Interfaces;
+using CDG.Service.Manage;
 using DataAccess.UnitOfWork;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +29,7 @@ namespace CDG.DependencyInjection
             services.AddSingleton<IGaragePictureManage, GaragePictureManage>();
             services.AddSingleton<IReviewerPictureManage, ReviewerPictureManage>();
             services.AddSingleton<IReviewManage, ReviewManage>();
+            services.AddSingleton<IProfilePictureManage, ProfilePictureManage>();
             return services;
         }
     }

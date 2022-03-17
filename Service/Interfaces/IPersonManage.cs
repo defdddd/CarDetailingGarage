@@ -9,5 +9,7 @@ namespace Service.Manage
     public interface IPersonManage : IManage<PersonModel>
     {
         Task<PersonModel> SearchByUserNameAsync(string userName);
+        Task<PersonModel> SearchByIdAsync(int id);
+
     }
 }

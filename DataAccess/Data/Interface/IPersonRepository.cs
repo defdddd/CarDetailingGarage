@@ -11,6 +11,7 @@ namespace DataAccess.Data.Interface
         Task<PersonModel> SearchByUserNameAsync(string userName);
         Task<bool> CheckEmailAsync(string email);
         Task<bool> CheckUserNameAsync(string userName);
+        Task<PersonModel> SearchByIdAsync(int id);
 
     }
 }
