@@ -12,7 +12,6 @@ namespace CarDetailingGarage.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,User")]
     public class ProfilePictureController : ControllerBase
     {
         private readonly IProfilePictureManage _manage;
@@ -37,6 +36,8 @@ namespace CarDetailingGarage.Controllers
 
 
         [HttpPost("insert")]
+        [Authorize(Roles = "Admin,User")]
+
         public async Task<IActionResult> Insert([FromBody] ProfilePictureModel value)
         {
             try
@@ -52,6 +53,8 @@ namespace CarDetailingGarage.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize(Roles = "Admin,User")]
+
         public async Task<IActionResult> Update([FromBody] ProfilePictureModel value)
         {
 
@@ -68,6 +71,7 @@ namespace CarDetailingGarage.Controllers
         }
 
         [HttpGet("{id}")]
+
         public async Task<IActionResult> SearchbyId(int id)
         {
             try
@@ -82,6 +86,8 @@ namespace CarDetailingGarage.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,User")]
+
         public async Task<IActionResult> Delete(int id)
         {
 

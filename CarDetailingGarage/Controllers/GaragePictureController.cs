@@ -79,12 +79,12 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-        [HttpGet("{appointmentId}/{pageNumber}/{pageSize}")]
-        public async Task<IActionResult> AppointmentPicture(int appointmentId, int pageNumber, int pageSize)
+        [HttpGet("pictures/{appointmentId}")]
+        public async Task<IActionResult> AppointmentPicture(int appointmentId)
         {
             try
             { 
-               return Ok(await _garagePictureManage.GetAppointmentPicturesAsync(appointmentId, pageNumber, pageSize));
+               return Ok(await _garagePictureManage.GetAppointmentPicturesAsync(appointmentId, 1, await _garagePictureManage.CountAsync() + 1));
             }
             catch (Exception e)
             {

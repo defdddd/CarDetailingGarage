@@ -66,14 +66,14 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-        [HttpGet("MyApp/{pageNumber}/{pageSize}")]
-        public async Task<IActionResult> MyAppointments(int pageNumber, int pageSize)
+        [HttpGet("MyApp")]
+        public async Task<IActionResult> MyAppointments()
         {
             try
             {
                 var userId = int.Parse(User.FindFirst("Identifier")?.Value);
 
-                return Ok(await _appointmentManage.GetMyAppointmentsAsync(userId, pageNumber, pageSize));
+                return Ok(await _appointmentManage.GetMyAppointmentsAsync(userId, 1, await _appointmentManage.CountAsync() + 1));
             }
             catch (Exception e)
             {

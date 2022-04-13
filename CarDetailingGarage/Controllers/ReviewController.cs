@@ -13,7 +13,6 @@ namespace CarDetailingGarage.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,User")]
     public class ReviewController : ControllerBase
     {
         private readonly IReviewManage _reviewManage;
@@ -26,7 +25,6 @@ namespace CarDetailingGarage.Controllers
 
         // GET: api/<PersonController>
         [HttpGet("all")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -39,13 +37,14 @@ namespace CarDetailingGarage.Controllers
             }
         }
 
-        [HttpGet("MyRev/{pageNumber}/{pageSize}")]
-        public async Task<IActionResult> MyReviews(int pageNumber, int pageSize)
+        [HttpGet("MyRev")]
+        [Authorize(Roles = "Admin,User")]
+        public async Task<IActionResult> MyReviews()
         {
             try
             {
                 var userId = int.Parse(User.FindFirst("Identifier")?.Value);
-                return Ok(await _reviewManage.GetMyReviewsAsync(userId, pageNumber, pageSize));
+                return Ok(await _reviewManage.GetMyReviewsAsync(userId, 1, await _reviewManage.CountAsync() + 1));
             }
             catch (Exception e)
             {
@@ -56,7 +55,6 @@ namespace CarDetailingGarage.Controllers
 
         // GET api/<PersonController>/5
         [HttpGet("{pageNumber}/{pageSize}")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAll(int pageNumber, int pageSize)
         {
             try
@@ -98,6 +96,8 @@ namespace CarDetailingGarage.Controllers
 
         // POST api/<PersonController>
         [HttpPost("insert")]
+        [Authorize(Roles = "Admin,User")]
+
         public async Task<IActionResult> Insert([FromBody] ReviewModel Review)
         {
             try
@@ -113,6 +113,8 @@ namespace CarDetailingGarage.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize(Roles = "Admin,User")]
+
         public async Task<IActionResult> Update([FromBody] ReviewModel Review)
         {
 
@@ -131,6 +133,8 @@ namespace CarDetailingGarage.Controllers
 
         // DELETE api/<PersonController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,User")]
+
         public async Task<IActionResult> Delete(int id)
         {
 

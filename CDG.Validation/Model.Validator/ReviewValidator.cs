@@ -27,8 +27,7 @@ namespace CDG.Validation.Model.Validator
 
             RuleFor(x => x.Review)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty()
-                .Length(0, 255);
+                .NotEmpty();
 
         }
     }

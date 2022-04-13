@@ -12,7 +12,6 @@ namespace CarDetailingGarage.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize(Roles ="Admin,User")]
     public class PersonController : ControllerBase
     {
         private readonly IPersonManage _personManage;
@@ -71,6 +70,8 @@ namespace CarDetailingGarage.Controllers
         }
 
         [HttpGet("username/{userName}")]
+        [Authorize(Roles = "Admin,User")]
+
         public async Task<IActionResult> Search(string userName)
         {
             try
@@ -86,6 +87,8 @@ namespace CarDetailingGarage.Controllers
         }
 
         [HttpGet("id/{id}")]
+        [Authorize(Roles = "Admin,User")]
+
         public async Task<IActionResult> SearchId(int id)
         {
             try
@@ -99,6 +102,22 @@ namespace CarDetailingGarage.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+
+        [HttpGet("getName/{id}")]
+        public async Task<IActionResult> GetName(int id)
+        {
+            try
+            {
+                var person = await _personManage.SearchByIdAsync(id);
+                return Ok(new { person.Name });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
 
         // POST api/<PersonController>
@@ -118,6 +137,8 @@ namespace CarDetailingGarage.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize(Roles = "Admin,User")]
+
         public async Task<IActionResult> Update([FromBody] PersonModel person)
         {
             try

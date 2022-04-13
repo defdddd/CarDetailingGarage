@@ -1,6 +1,7 @@
 ﻿
 using CDG.Service.Interfaces;
 using CDG.Service.Manage;
+using DataAccess.Data.Interface;
 using DataAccess.UnitOfWork;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,13 @@ namespace CDG.DependencyInjection
             services.AddSingleton<IReviewerPictureManage, ReviewerPictureManage>();
             services.AddSingleton<IReviewManage, ReviewManage>();
             services.AddSingleton<IProfilePictureManage, ProfilePictureManage>();
+            services.AddSingleton<IEmailService>
+                (
+                    x => 
+                       new EmailService(x.GetService<IAuthManage>(),
+                       x.GetService<IUnitOfWork>().PersonRepository,
+                       Config.GetConnectionString("EmailKey")
+                ));
             return services;
         }
     }
