@@ -12,10 +12,14 @@ namespace DataAccess.SqlDataAccess
     public class SqlDataAccess : ISqlDataAccess
     {
         private readonly string _connection;
+
+        //atribuirea stringului de conectare
         public SqlDataAccess(string connection)
         {
             _connection = connection;
         }
+
+        //Implementarea metodei LoadData pentru partea de read din CRUD
         public async Task<IEnumerable<T>> LoadData<T, U>(string storedProcedure, U parameteres)
         {
             using var connection = new SqlConnection(_connection);
@@ -24,6 +28,8 @@ namespace DataAccess.SqlDataAccess
                 commandType: CommandType.StoredProcedure);
         }
 
+        //Implementarea metodei SaveData care se ocupa cu celelalte operatii CRUD
+        //Create, Update, Delete
         public async Task<T> SaveData<T,U>(string storedProcedure, U parameteres)
         {
             using var connection = new SqlConnection(_connection);

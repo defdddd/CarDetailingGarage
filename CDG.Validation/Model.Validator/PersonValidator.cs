@@ -32,7 +32,7 @@ namespace CDG.Validation.Model.Validator
             RuleFor(x => x.Email)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .Length(4, 25)
+                .Length(4, 100)
                 .EmailAddress();
 
             RuleFor(x => x.Phone)

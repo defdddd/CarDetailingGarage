@@ -54,7 +54,6 @@ namespace CDG.Validation.Model.Validator
                 return true;
             return false;
         }
-
         private Boolean MustBeAValidDate(string date)
         {
             if(DateTime.Parse(date) < DateTime.Now) return false;
